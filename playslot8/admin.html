@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlaySlot — Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body class="admin-body">
+
+  <nav>
+    <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span> <span
+        class="admin-badge">ADMIN</span></div>
+    <div class="nav-links">
+      <a href="index.html">← Back to Site</a>
+    </div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </nav>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <ul>
+        <li class="active" onclick="switchTab('dashboardTab', this)">📊 Dashboard</li>
+        <li onclick="switchTab('locationsTab', this)">📍 Locations</li>
+        <li onclick="switchTab('turfsTab', this)">🏟️ Turfs</li>
+        <li onclick="switchTab('bookingsTab', this)">📅 Bookings</li>
+      </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+      <!-- DASHBOARD TAB -->
+      <section id="dashboardTab" class="admin-tab active-tab">
+        <h2>Admin <span>Overview</span></h2>
+        <div class="stats-grid">
+          <div class="admin-stat-card">
+            <h3>Total Bookings</h3>
+            <div class="stat-value" id="statBookings">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <h3>Total Turfs</h3>
+            <div class="stat-value" id="statTurfs">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <h3>Total Locations</h3>
+            <div class="stat-value" id="statLocations">0</div>
+          </div>
+          <div class="admin-stat-card">
+            <h3>Revenue (₹)</h3>
+            <div class="stat-value" id="statRevenue">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOCATIONS TAB -->
+      <section id="locationsTab" class="admin-tab">
+        <div class="tab-header">
+          <h2>Manage <span>Locations</span></h2>
+          <button class="btn-primary btn-add" onclick="openModal('locationModal')">+ Add Location</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Icon</th>
+                <th>Name</th>
+                <th>Turfs Count</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="locationsTableBody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- TURFS TAB -->
+      <section id="turfsTab" class="admin-tab">
+        <div class="tab-header">
+          <h2>Manage <span>Turfs</span></h2>
+          <button class="btn-primary btn-add" onclick="openModal('turfModal')">+ Add Turf</button>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Sports</th>
+                <th>Price/hr</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="turfsTableBody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- BOOKINGS TAB -->
+      <section id="bookingsTab" class="admin-tab">
+        <div class="tab-header">
+          <h2>Manage <span>Bookings</span></h2>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Date/Slot</th>
+                <th>Turf</th>
+                <th>User/Status</th>
+                <th>Total</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="bookingsTableBody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODALS -->
+
+  <!-- Add Location Modal -->
+  <div class="modal-overlay" id="locationModal">
+    <div class="modal-content">
+      <h3>Add New Location</h3>
+      <div class="form-group">
+        <label>Location Name</label>
+        <input type="text" id="locName" placeholder="e.g. Kochi">
+      </div>
+      <div class="form-group">
+        <label>Icon (Emoji)</label>
+        <input type="text" id="locIcon" placeholder="e.g. 🏙️">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal('locationModal')">Cancel</button>
+        <button class="btn-primary" onclick="addLocation()">Save Location</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Turf Modal -->
+  <div class="modal-overlay" id="turfModal">
+    <div class="modal-content">
+      <h3>Add New Turf</h3>
+      <div class="form-group">
+        <label>Turf Name</label>
+        <input type="text" id="turfName" placeholder="e.g. Gyras Sports Hub">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <select id="turfLocation">
+          <!-- populated dynamically -->
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Sports (comma separated)</label>
+        <input type="text" id="turfSports" placeholder="e.g. Football, Cricket">
+      </div>
+      <div class="form-group">
+        <label>Price per hour (₹)</label>
+        <input type="number" id="turfPrice" placeholder="e.g. 600">
+      </div>
+      <div class="modal-actions">
+        <button class="btn-outline" onclick="closeModal('turfModal')">Cancel</button>
+        <button class="btn-primary" onclick="addTurf()">Save Turf</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,370 @@
+/* ── STATUS PAGE ── */
+.status-page {
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+.status-header {
+  margin-bottom: 36px;
+  animation: fadeUp 0.5s ease both;
+}
+.status-header h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.status-header h2 span { color: var(--acid); }
+.status-header p { color: var(--muted); font-size: 15px; }
+
+/* ── TICKET ── */
+.ticket {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  position: relative;
+  animation: fadeUp 0.5s ease both;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+
+/* ── TICKET TOP ── */
+.ticket-top {
+  padding: 28px 32px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: start;
+}
+
+.ticket.football   .ticket-top { background: linear-gradient(135deg, #0a2a0a 0%, #1a5a1a 60%, #0f3a0f 100%); }
+.ticket.basketball .ticket-top { background: linear-gradient(135deg, #2a1a00 0%, #5a3a00 60%, #3a2200 100%); }
+.ticket.cricket    .ticket-top { background: linear-gradient(135deg, #0a0a2a 0%, #1a1a5a 60%, #0f0f3a 100%); }
+.ticket.cancelled  .ticket-top { background: linear-gradient(135deg, #1a0a0a 0%, #3a1010 60%, #1a0a0a 100%); }
+
+.ticket-top::before {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.05);
+}
+.ticket-top::after {
+  content: '';
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.05);
+}
+
+.ticket-sport-icon {
+  font-size: 72px;
+  line-height: 1;
+  opacity: 0.25;
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* ── TICKET LEFT ── */
+.ticket-left { position: relative; z-index: 1; }
+
+.ticket-id {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 10px;
+}
+.ticket-id span { color: var(--acid); font-weight: 800; }
+
+.ticket-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 0.95;
+  margin-bottom: 6px;
+}
+.ticket.football   .ticket-title { color: #9cff00; }
+.ticket.basketball .ticket-title { color: #ffc107; }
+.ticket.cricket    .ticket-title { color: #4fc3f7; }
+.ticket.cancelled  .ticket-title { color: #ff6666; }
+
+.ticket-turf {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 24px;
+}
+
+.ticket-details {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 20px 32px;
+}
+.ticket-detail-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 4px;
+}
+.ticket-detail-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+/* ── TICKET RIGHT ── */
+.ticket-right {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.ticket-status-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 6px;
+}
+.ticket-status-badge.confirmed {
+  background: rgba(156,255,0,0.15);
+  border: 1px solid rgba(156,255,0,0.4);
+  color: var(--acid);
+}
+.ticket-status-badge.cancelled {
+  background: rgba(255,68,68,0.15);
+  border: 1px solid rgba(255,68,68,0.4);
+  color: #ff6666;
+}
+
+.ticket-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1;
+}
+.ticket-price small {
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  display: block;
+  text-align: right;
+  margin-top: 2px;
+}
+
+/* ── TEAR LINE ── */
+.ticket-tear {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background: var(--dark);
+}
+.ticket-tear::before,
+.ticket-tear::after {
+  content: '';
+  flex: 1;
+  border-top: 2px dashed rgba(255,255,255,0.1);
+}
+.ticket-tear-circle-left,
+.ticket-tear-circle-right {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--dark);
+  flex-shrink: 0;
+}
+.ticket-tear-circle-left  { margin-left:  -12px; }
+.ticket-tear-circle-right { margin-right: -12px; }
+
+/* ── TICKET BOTTOM ── */
+.ticket-bottom {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  border-radius: 0 0 20px 20px;
+}
+
+.ticket-extras {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.ticket-extra-item {
+  font-size: 13px;
+  color: var(--muted);
+}
+.ticket-extra-item strong { color: var(--white); font-weight: 600; }
+
+.ticket-barcode {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+  opacity: 0.3;
+}
+.ticket-barcode span {
+  display: block;
+  width: 3px;
+  background: var(--white);
+  border-radius: 1px;
+}
+
+.cancel-ticket-btn {
+  background: transparent;
+  border: 1.5px solid rgba(255,68,68,0.35);
+  color: #ff6666;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 9px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cancel-ticket-btn:hover {
+  background: rgba(255,68,68,0.1);
+  border-color: #ff4444;
+}
+
+.cancelled-stamp {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ff6666;
+  opacity: 0.6;
+}
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align: center;
+  padding: 100px 20px;
+  animation: fadeUp 0.5s ease both;
+}
+.empty-icon {
+  font-size: 72px;
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+.empty-state h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 40px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.empty-state p {
+  color: var(--muted);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+/* ── CANCEL MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 36px;
+  max-width: 420px;
+  width: 100%;
+  animation: fadeUp 0.3s ease both;
+}
+.modal-box h3 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+.modal-box p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.modal-box p strong { color: var(--acid); }
+.modal-actions { display: flex; gap: 12px; }
+.modal-btn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+}
+.cancel-yes {
+  background: rgba(255,68,68,0.15);
+  border: 1.5px solid rgba(255,68,68,0.4);
+  color: #ff6666;
+}
+.cancel-yes:hover { background: rgba(255,68,68,0.25); }
+.cancel-no {
+  background: var(--acid);
+  color: var(--dark);
+}
+.cancel-no:hover { background: #b4ff2e; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .status-page { padding: 90px 16px 60px; }
+  .status-header h2 { font-size: 38px; }
+  .ticket-top { padding: 22px 20px; grid-template-columns: 1fr; }
+  .ticket-right { align-items: flex-start; flex-direction: row; }
+  .ticket-details { grid-template-columns: repeat(2, auto); gap: 16px 24px; }
+  .ticket-bottom { padding: 16px 20px; }
+  .ticket-title { font-size: 32px; }
+  .ticket-price { font-size: 28px; }
+}

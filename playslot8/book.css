@@ -1,0 +1,379 @@
+/* ── BOOK PAGE ── */
+.book-page {
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+.book-header {
+  margin-bottom: 48px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.breadcrumb span { color: var(--acid); }
+
+.book-header h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.book-header h2 span { color: var(--acid); }
+
+/* ── SECTIONS ── */
+.book-section {
+  margin-bottom: 56px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.step-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--dark);
+  background: var(--acid);
+  padding: 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.step-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+.step-title span { color: var(--acid); }
+
+/* ── CALENDAR STRIP ── */
+.calendar-strip {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+.calendar-strip::-webkit-scrollbar { height: 4px; }
+.calendar-strip::-webkit-scrollbar-thumb {
+  background: rgba(156,255,0,0.3);
+  border-radius: 2px;
+}
+
+.cal-day {
+  flex-shrink: 0;
+  width: 66px;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.2s;
+  position: relative;
+}
+.cal-day:hover {
+  border-color: var(--acid);
+  background: rgba(156,255,0,0.06);
+}
+.cal-day.active {
+  border-color: var(--acid);
+  background: rgba(156,255,0,0.1);
+}
+.cal-day.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px; height: 6px;
+  background: var(--acid);
+  border-radius: 50%;
+}
+.cal-day .cal-month {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 4px;
+}
+.cal-day .cal-day-name {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.cal-day .cal-day-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+.cal-day.today .cal-day-num { color: var(--acid); }
+
+/* ── TURF CARDS GRID ── */
+.turf-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.turf-book-card {
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.25s;
+  position: relative;
+}
+.turf-book-card:hover {
+  border-color: var(--acid);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(156,255,0,0.08);
+}
+.turf-book-card.selected {
+  border-color: var(--acid);
+  box-shadow: 0 0 0 3px rgba(156,255,0,0.2);
+}
+.turf-book-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 28px; height: 28px;
+  background: var(--acid);
+  color: var(--dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.turf-book-thumb {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.turf-book-thumb .turf-thumb-icon {
+  font-size: 56px;
+  opacity: 0.3;
+}
+.football-thumb   { background: linear-gradient(135deg, #0a2a0a, #1c5c1c); }
+.basketball-thumb { background: linear-gradient(135deg, #1a1a0a, #4a3a0a); }
+.cricket-thumb    { background: linear-gradient(135deg, #0a0a2a, #1a1a5a); }
+
+.turf-book-badge {
+  position: absolute;
+  bottom: 10px; left: 12px;
+  background: var(--acid);
+  color: var(--dark);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.turf-book-info {
+  padding: 16px 18px;
+}
+.turf-book-info h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 5px;
+}
+.turf-book-info small {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── SPORT OPTIONS ── */
+.option-hint {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* ── FOOTBALL PITCH SVG ── */
+.pitch-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.football-pitch-svg {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 14px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  display: block;
+}
+
+.half-overlay:hover {
+  fill: rgba(156,255,0,0.15) !important;
+}
+.half-overlay.selected-half {
+  fill: rgba(156,255,0,0.25) !important;
+}
+
+.full-court-btn {
+  background: rgba(156,255,0,0.1);
+  border: 1.5px solid var(--border);
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 40px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+}
+.full-court-btn:hover,
+.full-court-btn.selected {
+  background: rgba(156,255,0,0.18);
+  border-color: var(--acid);
+  color: var(--acid);
+}
+
+.selected-option-tag {
+  margin-top: 16px;
+  padding: 12px 20px;
+  background: rgba(156,255,0,0.08);
+  border: 1px solid rgba(156,255,0,0.25);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+}
+.selected-option-tag strong { color: var(--acid); }
+
+/* ── INDOOR / OUTDOOR GRID ── */
+.indoor-outdoor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 600px;
+}
+
+.io-card {
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.io-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--acid);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+.io-card:hover,
+.io-card.selected {
+  border-color: var(--acid);
+  background: rgba(156,255,0,0.05);
+}
+.io-card:hover::before,
+.io-card.selected::before {
+  transform: scaleX(1);
+}
+.io-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 26px; height: 26px;
+  background: var(--acid);
+  color: var(--dark);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.io-icon {
+  font-size: 48px;
+  margin-bottom: 14px;
+  display: block;
+}
+.io-card h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+.io-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── BOOKING SUMMARY MINI ── */
+.proceed-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 24px 28px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  margin-top: 20px;
+  animation: fadeUp 0.4s ease both;
+}
+
+.booking-summary-mini {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.booking-summary-mini strong {
+  color: var(--white);
+  font-weight: 600;
+}
+.booking-summary-mini .acid { color: var(--acid); font-weight: 700; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .book-page { padding: 90px 20px 60px; }
+  .book-header h2 { font-size: 38px; }
+  .turf-cards-grid { grid-template-columns: 1fr; }
+  .indoor-outdoor-grid { grid-template-columns: 1fr; }
+  .proceed-wrap { flex-direction: column; align-items: stretch; }
+  .proceed-wrap .btn-primary { width: 100%; text-align: center; }
+}

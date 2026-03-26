@@ -1,0 +1,197 @@
+/* ── LOCATION PAGE ── */
+.location-page {
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+.loc-header {
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.breadcrumb span { color: var(--acid); }
+
+.loc-header h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.loc-header h2 span { color: var(--acid); }
+
+.loc-header p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ── SEARCH BAR ── */
+.loc-search-wrap {
+  margin-bottom: 36px;
+  animation: fadeUp 0.5s 0.1s ease both;
+}
+
+.loc-search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 20px;
+  transition: border-color 0.2s;
+}
+.loc-search-box:focus-within {
+  border-color: var(--acid);
+}
+
+.search-icon { font-size: 18px; flex-shrink: 0; }
+
+.loc-search-box input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 16px;
+}
+.loc-search-box input::placeholder { color: var(--muted); }
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.clear-btn:hover { color: var(--white); }
+
+/* ── SECTION LABEL ── */
+.loc-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--acid);
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s 0.15s ease both;
+}
+
+/* ── LOCATION GRID ── */
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  animation: fadeUp 0.5s 0.2s ease both;
+}
+
+/* ── LOCATION CARD ── */
+.loc-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.loc-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: var(--acid);
+  transform: scaleY(0);
+  transition: transform 0.25s;
+  transform-origin: bottom;
+}
+.loc-card:hover {
+  border-color: var(--acid);
+  background: rgba(156, 255, 0, 0.04);
+  transform: translateX(4px);
+}
+.loc-card:hover::before { transform: scaleY(1); }
+
+.loc-card-icon {
+  font-size: 32px;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(156, 255, 0, 0.08);
+  border: 1px solid rgba(156, 255, 0, 0.15);
+  border-radius: 12px;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+.loc-card:hover .loc-card-icon {
+  background: rgba(156, 255, 0, 0.14);
+}
+
+.loc-card-info { flex: 1; }
+.loc-card-info h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  margin-bottom: 3px;
+}
+.loc-card-info span {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.loc-arrow {
+  font-size: 18px;
+  color: var(--muted);
+  transition: color 0.25s, transform 0.25s;
+  flex-shrink: 0;
+}
+.loc-card:hover .loc-arrow {
+  color: var(--acid);
+  transform: translateX(4px);
+}
+
+/* ── NO RESULTS ── */
+.no-results {
+  text-align: center;
+  padding: 80px 20px;
+}
+.no-results-icon { font-size: 56px; margin-bottom: 20px; }
+.no-results h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+.no-results p { color: var(--muted); font-size: 15px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .location-page { padding: 90px 20px 60px; }
+  .loc-header h2 { font-size: 38px; }
+  .location-grid { grid-template-columns: 1fr; }
+}

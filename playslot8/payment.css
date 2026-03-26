@@ -1,0 +1,414 @@
+/* ── PAYMENT PAGE ── */
+.payment-page {
+  min-height: 100vh;
+  padding: 100px 40px 80px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── HEADER ── */
+.payment-header {
+  margin-bottom: 40px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.payment-header h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+}
+.payment-header h2 span { color: var(--acid); }
+
+/* ── LAYOUT ── */
+.payment-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── CARD ── */
+.pay-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  animation: fadeUp 0.5s ease both;
+}
+
+.pay-card-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: rgba(156,255,0,0.03);
+}
+
+.pay-card-body {
+  padding: 24px;
+}
+
+/* ── SUMMARY ROWS ── */
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(156,255,0,0.06);
+  font-size: 14px;
+}
+.summary-row:last-child { border-bottom: none; }
+
+.s-label { color: var(--muted); }
+.s-value { font-weight: 600; color: var(--white); text-align: right; }
+
+/* ── ADD-ONS ── */
+.addon-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.addon-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.addon-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── TOGGLE SWITCH ── */
+.toggle-switch {
+  position: relative;
+  width: 52px;
+  height: 28px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid var(--border);
+  border-radius: 999px;
+  transition: all 0.3s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--muted);
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+.toggle-switch input:checked + .toggle-slider {
+  background: rgba(156,255,0,0.2);
+  border-color: var(--acid);
+}
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(24px) translateY(-50%);
+  background: var(--acid);
+}
+
+/* ── PLAYER COUNT ── */
+.player-input-wrap {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  animation: fadeUp 0.3s ease both;
+}
+
+.input-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.player-counter {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: fit-content;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.counter-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(156,255,0,0.08);
+  border: none;
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.counter-btn:hover { background: rgba(156,255,0,0.18); color: var(--acid); }
+
+.counter-val {
+  width: 60px;
+  text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  border-left: 1.5px solid var(--border);
+  border-right: 1.5px solid var(--border);
+  padding: 6px 0;
+}
+
+.player-note {
+  font-size: 13px;
+  color: var(--muted);
+}
+.player-note .acid {
+  color: var(--acid);
+  font-weight: 700;
+}
+
+/* ── PAYMENT METHODS ── */
+.pay-methods {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.pay-method {
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.2s;
+}
+.pay-method:hover,
+.pay-method.active {
+  border-color: var(--acid);
+  background: rgba(156,255,0,0.07);
+}
+
+.pm-icon {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: var(--acid);
+  margin-bottom: 6px;
+}
+.pm-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.pay-method.active .pm-label { color: var(--white); }
+
+/* ── PAYMENT INPUTS ── */
+.pay-input-section {
+  animation: fadeUp 0.3s ease both;
+}
+
+.pay-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: rgba(0,0,0,0.3);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-top: 6px;
+}
+.pay-input:focus { border-color: var(--acid); }
+.pay-input::placeholder { color: var(--muted); }
+
+.pay-select {
+  appearance: none;
+  cursor: pointer;
+}
+.pay-select option { background: #0c180d; }
+
+.cash-note {
+  background: rgba(156,255,0,0.05);
+  border: 1px solid rgba(156,255,0,0.15);
+  border-radius: 10px;
+  padding: 16px 20px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.cash-note strong { color: var(--white); }
+
+/* ── PRICE BREAKDOWN ── */
+.sticky-card {
+  position: sticky;
+  top: 84px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(156,255,0,0.06);
+  font-size: 14px;
+}
+.price-row:last-of-type { border-bottom: none; }
+
+.p-label { color: var(--muted); }
+.p-value { font-weight: 600; color: var(--white); }
+
+.price-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0 20px;
+  border-top: 2px solid var(--border);
+  margin-top: 8px;
+}
+.pt-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+}
+.pt-value {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 38px;
+  font-weight: 900;
+  color: var(--acid);
+}
+
+/* ── CONFIRM BUTTON ── */
+.confirm-btn {
+  width: 100%;
+  background: var(--acid);
+  color: var(--dark);
+  border: none;
+  cursor: pointer;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 18px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  box-shadow: 0 0 40px rgba(156,255,0,0.25);
+  margin-bottom: 14px;
+}
+.confirm-btn:hover {
+  background: #b4ff2e;
+  box-shadow: 0 0 60px rgba(156,255,0,0.4);
+  transform: translateY(-2px);
+}
+
+.secure-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── SUCCESS SCREEN ── */
+.success-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: calc(100vh - 62px);
+  padding: 60px 20px;
+}
+
+.success-check {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(156,255,0,0.1);
+  border: 2px solid var(--acid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: var(--acid);
+  font-weight: 900;
+  margin-bottom: 30px;
+  animation: pulse 1.5s ease infinite;
+}
+
+.success-screen h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--acid);
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+
+.success-screen p {
+  color: var(--muted);
+  font-size: 16px;
+  max-width: 380px;
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.booking-id-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 40px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: var(--acid);
+  margin-bottom: 32px;
+}
+
+.success-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .payment-page { padding: 90px 20px 60px; }
+  .payment-layout { grid-template-columns: 1fr; }
+  .sticky-card { position: static; }
+  .payment-header h2 { font-size: 38px; }
+  .pay-methods { grid-template-columns: repeat(2, 1fr); }
+}

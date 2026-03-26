@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaySlot — My Bookings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="status.css">
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#turfs">Turfs</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="location.html">Location</a>
+    <a href="login.html">Login</a>
+    <a class="cta" href="location.html">Book Now </a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="status-page">
+
+  <!-- HEADER -->
+  <div class="status-header">
+    <h2>My <span>Bookings</span></h2>
+    <p>Your previous turf slots</p>
+  </div>
+
+  <!-- BOOKINGS LIST -->
+  <div id="bookingsList"></div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <div class="empty-icon">🏟</div>
+    <h3>No Bookings Yet</h3>
+    <p>You haven't booked any turf slots yet.</p>
+    <button class="btn-primary" onclick="window.location.href='location.html'">Book a Turf</button>
+  </div>
+
+</div>
+
+<!-- CANCEL MODAL -->
+<div class="modal-overlay" id="cancelModal" style="display:none;">
+  <div class="modal-box">
+    <h3>Cancel Booking?</h3>
+    <p>Are you sure you want to cancel booking <strong id="cancelBookingId"></strong>? This cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="modal-btn cancel-yes" onclick="confirmCancel()">Yes, Cancel</button>
+      <button class="modal-btn cancel-no" onclick="closeModal()">Keep Booking</button>
+    </div>
+  </div>
+</div>
+
+<script src="status.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaySlot — Book a Turf</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="book.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#turfs">Turfs</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="location.html">Location</a>
+    <a href="login.html">Login</a>
+    <a class="cta" href="location.html">Book Now </a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="book-page">
+
+  <!-- PAGE HEADER -->
+  <div class="book-header">
+    <div class="breadcrumb">
+      <span onclick="window.location.href='location.html'" style="cursor:pointer">📍 <span id="locationName">Location</span></span>
+      &nbsp;›&nbsp; Book a Turf
+    </div>
+    <h2>Book Your <span>Turf</span></h2>
+  </div>
+
+  <!-- ══ STEP 1: DATE ══ -->
+  <div class="book-section">
+    <div class="step-tag">Step 1</div>
+    <div class="step-title">Select a <span>Date</span></div>
+    <div class="calendar-strip" id="calendarStrip"></div>
+  </div>
+
+  <!-- ══ STEP 2: TURF SELECTION ══ -->
+  <div class="book-section">
+    <div class="step-tag">Step 2</div>
+    <div class="step-title">Choose Your <span>Turf</span></div>
+
+    <div class="turf-cards-grid" id="turfGrid">
+      <p style="text-align:center; width:100%; grid-column:1/-1;">Loading turfs...</p>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3: SPORT SPECIFIC OPTIONS ══ -->
+  <div class="book-section" id="sportOptionsSection" style="display:none;">
+    <div class="step-tag">Step 3</div>
+    <div class="step-title" id="sportOptionsTitle">Choose Your <span>Option</span></div>
+
+    <!-- FOOTBALL — Graphic pitch selector -->
+    <div id="footballOptions" style="display:none;">
+      <p class="option-hint">Select Full Court or Half Court by clicking on the pitch below.</p>
+      <div class="pitch-selector">
+
+        <div class="pitch-wrap">
+          <!-- SVG Football Pitch -->
+          <svg class="football-pitch-svg" viewBox="0 0 500 340" xmlns="http://www.w3.org/2000/svg">
+            <!-- Pitch background -->
+            <rect x="0" y="0" width="500" height="340" rx="10" fill="#1a4a1a"/>
+            <!-- Grass stripes -->
+            <rect x="0"   y="0" width="500" height="34" fill="#1c521c" opacity="0.5"/>
+            <rect x="0"   y="68" width="500" height="34" fill="#1c521c" opacity="0.5"/>
+            <rect x="0"   y="136" width="500" height="34" fill="#1c521c" opacity="0.5"/>
+            <rect x="0"   y="204" width="500" height="34" fill="#1c521c" opacity="0.5"/>
+            <rect x="0"   y="272" width="500" height="34" fill="#1c521c" opacity="0.5"/>
+            <!-- Outer boundary -->
+            <rect x="16" y="16" width="468" height="308" rx="4" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Halfway line -->
+            <line x1="250" y1="16" x2="250" y2="324" stroke="white" stroke-width="2.5"/>
+            <!-- Centre circle -->
+            <circle cx="250" cy="170" r="50" fill="none" stroke="white" stroke-width="2.5"/>
+            <circle cx="250" cy="170" r="4" fill="white"/>
+            <!-- Left penalty box -->
+            <rect x="16" y="96" width="90" height="148" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Left goal box -->
+            <rect x="16" y="126" width="40" height="88" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Left goal -->
+            <rect x="2" y="140" width="14" height="60" fill="none" stroke="white" stroke-width="2"/>
+            <!-- Left penalty spot -->
+            <circle cx="76" cy="170" r="3" fill="white"/>
+            <!-- Left penalty arc -->
+            <path d="M106 140 A50 50 0 0 1 106 200" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Right penalty box -->
+            <rect x="394" y="96" width="90" height="148" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Right goal box -->
+            <rect x="444" y="126" width="40" height="88" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Right goal -->
+            <rect x="484" y="140" width="14" height="60" fill="none" stroke="white" stroke-width="2"/>
+            <!-- Right penalty spot -->
+            <circle cx="424" cy="170" r="3" fill="white"/>
+            <!-- Right penalty arc -->
+            <path d="M394 140 A50 50 0 0 0 394 200" fill="none" stroke="white" stroke-width="2.5"/>
+            <!-- Corner arcs -->
+            <path d="M16 28 A12 12 0 0 1 28 16" fill="none" stroke="white" stroke-width="2"/>
+            <path d="M472 16 A12 12 0 0 1 484 28" fill="none" stroke="white" stroke-width="2"/>
+            <path d="M16 312 A12 12 0 0 0 28 324" fill="none" stroke="white" stroke-width="2"/>
+            <path d="M472 324 A12 12 0 0 0 484 312" fill="none" stroke="white" stroke-width="2"/>
+
+            <!-- LEFT HALF clickable overlay -->
+            <rect id="leftHalf" x="16" y="16" width="234" height="308"
+              fill="rgba(156,255,0,0)" rx="4"
+              class="half-overlay"
+              onclick="selectHalf('Left Half')"
+              style="cursor:pointer; transition: fill 0.2s;"
+            />
+            <!-- RIGHT HALF clickable overlay -->
+            <rect id="rightHalf" x="250" y="16" width="234" height="308"
+              fill="rgba(156,255,0,0)" rx="4"
+              class="half-overlay"
+              onclick="selectHalf('Right Half')"
+              style="cursor:pointer; transition: fill 0.2s;"
+            />
+
+            <!-- Labels -->
+            <text x="133" y="178" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13" font-family="Barlow Condensed" font-weight="700" letter-spacing="2">LEFT HALF</text>
+            <text x="367" y="178" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-size="13" font-family="Barlow Condensed" font-weight="700" letter-spacing="2">RIGHT HALF</text>
+          </svg>
+
+          <!-- Full court button overlaid below pitch -->
+          <div class="full-court-btn" onclick="selectHalf('Full Court')">
+            ⚽ Book Full Court
+          </div>
+        </div>
+
+        <!-- Selected indicator -->
+        <div class="selected-option-tag" id="halfSelectedTag" style="display:none;">
+          ✅ Selected: <strong id="halfSelectedLabel"></strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- BASKETBALL — Indoor / Outdoor -->
+    <div id="basketballOptions" style="display:none;">
+      <p class="option-hint">Choose your preferred court type.</p>
+      <div class="indoor-outdoor-grid">
+        <div class="io-card" onclick="selectCourtType('Indoor', this)">
+          <div class="io-icon">🏢</div>
+          <h4>Indoor</h4>
+          <p>Air-conditioned hall, wooden flooring, premium lighting</p>
+        </div>
+        <div class="io-card" onclick="selectCourtType('Outdoor', this)">
+          <div class="io-icon">☀️</div>
+          <h4>Outdoor</h4>
+          <p>Open air court, floodlit for evening sessions</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRICKET — Indoor / Outdoor -->
+    <div id="cricketOptions" style="display:none;">
+      <p class="option-hint">Choose your preferred format.</p>
+      <div class="indoor-outdoor-grid">
+        <div class="io-card" onclick="selectCourtType('Indoor Box Cricket', this)">
+          <div class="io-icon">🏢</div>
+          <h4>Indoor Box Cricket</h4>
+          <p>Nets enclosed, turf pitch, evening friendly</p>
+        </div>
+        <div class="io-card" onclick="selectCourtType('Outdoor Box Cricket', this)">
+          <div class="io-icon">🌿</div>
+          <h4>Outdoor Box Cricket</h4>
+          <p>Open ground, natural light, larger playing area</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ PROCEED BUTTON ══ -->
+  <div class="proceed-wrap" id="proceedWrap" style="display:none;">
+    <div class="booking-summary-mini" id="bookingSummaryMini"></div>
+    <button class="btn-primary" onclick="proceedToSlots()">Choose Time Slot →</button>
+  </div>
+
+</div>
+
+<script src="book.js"></script>
+</body>
+</html>

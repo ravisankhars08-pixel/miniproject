@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaySlot — Payment</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="payment.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#turfs">Turfs</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="location.html">Location</a>
+    <a href="login.html">Login</a>
+    <a class="cta" href="location.html">Book Now </a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="payment-page" id="paymentView">
+
+  <!-- HEADER -->
+  <div class="payment-header">
+    <div class="breadcrumb">
+      <span onclick="window.location.href='slots.html'" style="cursor:pointer">Time Slot</span>
+      &nbsp;›&nbsp; Payment
+    </div>
+    <h2>Confirm & <span>Pay</span></h2>
+  </div>
+
+  <div class="payment-layout">
+
+    <!-- LEFT COLUMN -->
+    <div class="payment-left">
+
+      <!-- BOOKING SUMMARY -->
+      <div class="pay-card">
+        <div class="pay-card-head">Booking Summary</div>
+        <div class="pay-card-body">
+          <div class="summary-row">
+            <span class="s-label">Location</span>
+            <span class="s-value" id="sumLocation">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Turf</span>
+            <span class="s-value" id="sumTurf">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Sport</span>
+            <span class="s-value" id="sumSport">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Court Type</span>
+            <span class="s-value" id="sumCourt">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Date</span>
+            <span class="s-value" id="sumDate">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Time Slot</span>
+            <span class="s-value" id="sumSlot">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="s-label">Duration</span>
+            <span class="s-value" id="sumDuration">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD-ONS: WATER BOTTLES -->
+      <div class="pay-card">
+        <div class="pay-card-head">Add-ons</div>
+        <div class="pay-card-body">
+
+          <div class="addon-row">
+            <div class="addon-info">
+              <div class="addon-title">Water Bottles</div>
+              <div class="addon-sub">500ml chilled bottles — ₹20 per player</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="waterToggle" onchange="toggleWater()">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Player count (shown when water is toggled on) -->
+          <div class="player-input-wrap" id="playerInputWrap" style="display:none;">
+            <label class="input-label">Number of Players</label>
+            <div class="player-counter">
+              <button class="counter-btn" onclick="changeCount(-1)">−</button>
+              <span class="counter-val" id="playerCount">1</span>
+              <button class="counter-btn" onclick="changeCount(1)">+</button>
+            </div>
+            <div class="player-note">₹20 × <span id="playerCountNote">1</span> players = <span class="acid" id="waterTotal">₹20</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PAYMENT METHOD -->
+      <div class="pay-card">
+        <div class="pay-card-head">Payment Method</div>
+        <div class="pay-card-body">
+
+          <div class="pay-methods">
+            <div class="pay-method active" onclick="selectPayMethod('upi', this)">
+              <div class="pm-icon">UPI</div>
+              <div class="pm-label">UPI</div>
+            </div>
+            <div class="pay-method" onclick="selectPayMethod('card', this)">
+              <div class="pm-icon">CARD</div>
+              <div class="pm-label">Card</div>
+            </div>
+            <div class="pay-method" onclick="selectPayMethod('netbanking', this)">
+              <div class="pm-icon">NET</div>
+              <div class="pm-label">Net Banking</div>
+            </div>
+            <div class="pay-method" onclick="selectPayMethod('cash', this)">
+              <div class="pm-icon">CASH</div>
+              <div class="pm-label">Cash</div>
+            </div>
+          </div>
+
+          <!-- UPI -->
+          <div class="pay-input-section" id="upiSection">
+            <label class="input-label">UPI ID</label>
+            <input type="text" class="pay-input" id="upiId" placeholder="yourname@upi">
+          </div>
+
+          <!-- CARD -->
+          <div class="pay-input-section" id="cardSection" style="display:none;">
+            <label class="input-label">Card Number</label>
+            <input type="text" class="pay-input" id="cardNum" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard()">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
+              <div>
+                <label class="input-label">Expiry</label>
+                <input type="text" class="pay-input" id="expiry" placeholder="MM/YY" maxlength="5" oninput="formatExpiry()">
+              </div>
+              <div>
+                <label class="input-label">CVV</label>
+                <input type="password" class="pay-input" id="cvv" placeholder="•••" maxlength="3">
+              </div>
+            </div>
+          </div>
+
+          <!-- NET BANKING -->
+          <div class="pay-input-section" id="netSection" style="display:none;">
+            <label class="input-label">Select Bank</label>
+            <select class="pay-input pay-select" id="bankSelect">
+              <option value="">-- Choose your bank --</option>
+              <option>State Bank of India</option>
+              <option>HDFC Bank</option>
+              <option>ICICI Bank</option>
+              <option>Axis Bank</option>
+              <option>Kerala Gramin Bank</option>
+              <option>Federal Bank</option>
+              <option>South Indian Bank</option>
+            </select>
+          </div>
+
+          <!-- CASH -->
+          <div class="pay-input-section" id="cashSection" style="display:none;">
+            <div class="cash-note">
+              Pay cash directly at the turf counter. Your slot will be held for <strong>30 minutes</strong> after booking.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN — Price breakdown & confirm -->
+    <div class="payment-right">
+      <div class="pay-card sticky-card">
+        <div class="pay-card-head">Price Breakdown</div>
+        <div class="pay-card-body">
+
+          <div class="price-row">
+            <span class="p-label">Turf Booking</span>
+            <span class="p-value" id="priceBase">₹0</span>
+          </div>
+          <div class="price-row" id="waterRow" style="display:none;">
+            <span class="p-label">Water Bottles</span>
+            <span class="p-value" id="priceWater">₹0</span>
+          </div>
+          <div class="price-row">
+            <span class="p-label">Platform Fee</span>
+            <span class="p-value">₹20</span>
+          </div>
+          <div class="price-row">
+            <span class="p-label">GST (18%)</span>
+            <span class="p-value" id="priceGst">₹0</span>
+          </div>
+
+          <div class="price-total">
+            <span class="pt-label">Total</span>
+            <span class="pt-value" id="priceTotal">₹0</span>
+          </div>
+
+          <button class="confirm-btn" onclick="confirmPayment()">Confirm & Pay</button>
+
+          <div class="secure-note">256-bit SSL encrypted. Your payment is safe.</div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUCCESS SCREEN -->
+<div class="payment-page success-screen" id="successView" style="display:none;">
+  <div class="success-check">✓</div>
+  <h2>Booking Confirmed!</h2>
+  <p>Your slot is locked in. Show your booking ID at the venue.</p>
+  <div class="booking-id-box" id="bookingIdBox"></div>
+  <div class="success-actions">
+    <button class="btn-primary" onclick="window.location.href='status.html'">View My Bookings</button>
+    <button class="btn-outline" onclick="window.location.href='book.html'">Book Another</button>
+  </div>
+</div>
+
+<script src="payment.js"></script>
+</body>
+</html>

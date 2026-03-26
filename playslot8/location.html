@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaySlot — Select Location</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="location.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">play<span>Slot</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#turfs">Turfs</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="location.html" class="active">Location</a>
+    <a href="login.html">Login</a>
+    <a class="cta" href="location.html">Book Now </a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<!-- PAGE WRAPPER -->
+<div class="location-page">
+
+  <!-- HEADER -->
+  <div class="loc-header">
+    <div class="breadcrumb">Step <span>1</span> of 4 — Choose Location</div>
+    <h2>Where do you <span>want to play?</span></h2>
+    <p>Select a city or area to see available turfs near you.</p>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="loc-search-wrap">
+    <div class="loc-search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        id="locationSearch"
+        placeholder="Search your city or area..."
+        oninput="filterLocations()"
+        autocomplete="off"
+      >
+      <button class="clear-btn" id="clearBtn" onclick="clearSearch()" style="display:none;">✕</button>
+    </div>
+  </div>
+
+  <!-- POPULAR LOCATIONS LABEL -->
+  <div class="loc-section-label" id="sectionLabel">Popular Locations</div>
+
+  <!-- LOCATION GRID -->
+  <div class="location-grid" id="locationGrid">
+    <!-- Populated dynamically via location.js -->
+  </div>
+
+  <!-- NO RESULTS -->
+  <div class="no-results" id="noResults" style="display:none;">
+    <div class="no-results-icon">📍</div>
+    <h4>No locations found</h4>
+    <p>Try searching a different city or area in Kerala.</p>
+  </div>
+
+</div>
+
+<script src="location.js"></script>
+</body>
+</html>

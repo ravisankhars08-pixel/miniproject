@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlaySlot — Select Time Slot</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="slots.css">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span></div>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="index.html#turfs">Turfs</a>
+    <a href="index.html#how">How It Works</a>
+    <a href="location.html">Location</a>
+    <a href="login.html">Login</a>
+    <a class="cta" href="location.html">Book Now </a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">☰</div>
+</nav>
+
+<div class="slots-page">
+
+  <!-- HEADER -->
+  <div class="slots-header">
+    <div class="breadcrumb">
+      <span onclick="window.location.href='location.html'" style="cursor:pointer">📍 <span id="locationLabel"></span></span>
+      &nbsp;›&nbsp;
+      <span onclick="window.location.href='book.html'" style="cursor:pointer">🏟️ <span id="turfLabel"></span></span>
+      &nbsp;›&nbsp; Time Slot
+    </div>
+    <h2>Pick Your <span>Time Slot</span></h2>
+    <p>Select session duration then tap your preferred slot.</p>
+  </div>
+
+  <!-- BOOKING INFO BAR -->
+  <div class="booking-info-bar">
+    <div class="info-chip">📅 <strong id="dateLabel"></strong></div>
+    <div class="info-chip">🏟️ <strong id="turfInfo"></strong></div>
+    <div class="info-chip">⚽ <strong id="sportInfo"></strong></div>
+    <div class="info-chip">🎯 <strong id="courtTypeInfo"></strong></div>
+  </div>
+
+  <!-- SESSION DURATION TOGGLE -->
+  <div class="book-section">
+    <div class="step-tag">Step 1</div>
+    <div class="step-title">Session <span>Duration</span></div>
+    <div class="duration-toggle">
+      <button class="dur-btn active" id="dur1" onclick="setDuration(1)">
+        <span class="dur-icon">⏱️</span>
+        <span class="dur-label">1 Hour</span>
+        <span class="dur-sub">Standard session</span>
+      </button>
+      <button class="dur-btn" id="dur2" onclick="setDuration(2)">
+        <span class="dur-icon">⏰</span>
+        <span class="dur-label">2 Hours</span>
+        <span class="dur-sub">Extended session</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TIME SLOTS GRID -->
+  <div class="book-section">
+    <div class="step-tag">Step 2</div>
+    <div class="step-title">Available <span>Slots</span></div>
+
+    <!-- LEGEND -->
+    <div class="slot-legend">
+      <div class="legend-item"><div class="legend-dot available"></div> Available</div>
+      <div class="legend-item"><div class="legend-dot selected"></div> Selected</div>
+      <div class="legend-item"><div class="legend-dot booked"></div> Booked</div>
+    </div>
+
+    <!-- MORNING -->
+    <div class="time-group-label">Morning</div>
+    <div class="slots-grid" id="morningSlots"></div>
+
+    <!-- AFTERNOON -->
+    <div class="time-group-label">Afternoon</div>
+    <div class="slots-grid" id="afternoonSlots"></div>
+
+    <!-- EVENING -->
+    <div class="time-group-label">Evening</div>
+    <div class="slots-grid" id="eveningSlots"></div>
+
+    <!-- NIGHT -->
+    <div class="time-group-label">Night</div>
+    <div class="slots-grid" id="nightSlots"></div>
+  </div>
+
+  <!-- PROCEED BAR -->
+  <div class="proceed-wrap" id="proceedWrap" style="display:none;">
+    <div class="booking-summary-mini" id="slotSummary"></div>
+    <button class="btn-primary" onclick="proceedToPayment()">Proceed to Payment →</button>
+  </div>
+
+</div>
+
+<script src="slots.js"></script>
+</body>
+</html>
