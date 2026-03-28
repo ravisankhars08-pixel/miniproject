@@ -208,7 +208,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 // ── RESTORE REMEMBERED EMAIL ──
-window.addEventListener('DOMContentLoaded', function () {
+window.addEventListener('DOMContentLoaded', async function () {
   const remembered = localStorage.getItem('ps_remember');
   if (remembered) {
     const emailInput = document.getElementById('loginEmail');
@@ -217,10 +217,22 @@ window.addEventListener('DOMContentLoaded', function () {
     if (rememberBox)   rememberBox.checked = true;
   }
 
-  // If already logged in, skip the login page
+  // If already logged in, verify with backend before skipping login page
   const session = getSession();
-  if (session) {
-    if (session.role === 'admin') window.location.href = 'admin.html';
-    else window.location.href = 'index.html';
+  if (session && session.token) {
+    try {
+      const res = await fetch(`${API_URL}/auth/me`, {
+        headers: { 'x-auth-token': session.token }
+      });
+      if (res.ok) {
+        const user = await res.json();
+        if (user.role === 'admin') window.location.href = 'admin.html';
+        else window.location.href = 'index.html';
+      } else {
+        localStorage.removeItem('ps_session');
+      }
+    } catch (err) {
+      console.error('Auth verification failed', err);
+    }
   }
 });

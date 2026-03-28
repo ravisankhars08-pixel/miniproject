@@ -111,8 +111,13 @@
 
       <!-- BOOKINGS TAB -->
       <section id="bookingsTab" class="admin-tab">
-        <div class="tab-header">
+        <div class="tab-header booking-header">
           <h2>Manage <span>Bookings</span></h2>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" onclick="filterBookings('all')">All</button>
+            <button class="filter-tab" data-filter="confirmed" onclick="filterBookings('confirmed')">Confirmed</button>
+            <button class="filter-tab" data-filter="cancelled" onclick="filterBookings('cancelled')">Cancelled</button>
+          </div>
         </div>
         <div class="table-wrap">
           <table class="admin-table">

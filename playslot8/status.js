@@ -1,5 +1,6 @@
 // ── LOAD BOOKINGS ──
-let allBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+const API_URL = 'http://localhost:5000/api';
+let allBookings = [];
 let cancelTargetId = null;
 
 // ── SPORT CONFIG ──
@@ -9,22 +10,45 @@ const sportConfig = {
   Cricket:    { class: 'cricket',    icon: '🏏' },
 };
 
+// ── FETCH FROM BACKEND ──
+async function fetchMyBookings() {
+  const session = JSON.parse(localStorage.getItem('ps_session'));
+  if (!session || !session.token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/my-bookings`, {
+      headers: { 'x-auth-token': session.token }
+    });
+    if (!res.ok) throw new Error('Failed to fetch bookings');
+    allBookings = await res.json();
+    renderBookings();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('bookingsList').innerHTML = '<p style="color:red; text-align:center;">Error loading bookings. Please try again.</p>';
+  }
+}
+
 // ── RENDER ──
 function renderBookings() {
   const list  = document.getElementById('bookingsList');
   const empty = document.getElementById('emptyState');
   list.innerHTML = '';
 
-  if (allBookings.length === 0) {
+  if (!allBookings || allBookings.length === 0) {
     empty.style.display = 'block';
     return;
   }
 
   empty.style.display = 'none';
 
-  // newest first
-  [...allBookings].reverse().forEach(booking => {
-    const config      = sportConfig[booking.sport] || { class: 'football', icon: '⚽' };
+  // newest first (past 3 only)
+  [...allBookings].reverse().slice(0, 3).forEach(booking => {
+    // Determine sport - if not explicitly saved, try to deduce from turf or default
+    const sport = booking.sport || (booking.turf && (booking.turf.sports || '').split(',')[0].trim()) || 'Football';
+    const config = sportConfig[sport] || { class: 'football', icon: '⚽' };
     const isCancelled = booking.status === 'cancelled';
 
     // barcode bars
@@ -35,7 +59,7 @@ function renderBookings() {
 
     const ticket = document.createElement('div');
     ticket.classList.add('ticket', isCancelled ? 'cancelled' : config.class);
-    ticket.dataset.id = booking.id;
+    ticket.dataset.id = booking._id;
 
     ticket.innerHTML = `
       <!-- TOP -->
@@ -43,9 +67,9 @@ function renderBookings() {
         <div class="ticket-sport-icon">${config.icon}</div>
 
         <div class="ticket-left">
-          <div class="ticket-id">Booking ID: <span>${booking.id}</span></div>
-          <div class="ticket-title">${booking.sport.toUpperCase()}</div>
-          <div class="ticket-turf">${booking.turf} &nbsp;·&nbsp; ${booking.location}</div>
+          <div class="ticket-id">Booking ID: <span>${booking._id}</span></div>
+          <div class="ticket-title">${sport.toUpperCase()}</div>
+          <div class="ticket-turf">${booking.turf ? booking.turf.name : 'Unknown Turf'}</div>
 
           <div class="ticket-details">
             <div class="ticket-detail-item">
@@ -58,7 +82,7 @@ function renderBookings() {
             </div>
             <div class="ticket-detail-item">
               <div class="ticket-detail-label">Duration</div>
-              <div class="ticket-detail-value">${booking.duration}</div>
+              <div class="ticket-detail-value">${booking.durationHours} hr</div>
             </div>
             <div class="ticket-detail-item">
               <div class="ticket-detail-label">Court</div>
@@ -66,11 +90,11 @@ function renderBookings() {
             </div>
             <div class="ticket-detail-item">
               <div class="ticket-detail-label">Sport</div>
-              <div class="ticket-detail-value">${booking.sport}</div>
+              <div class="ticket-detail-value">${sport}</div>
             </div>
             <div class="ticket-detail-item">
-              <div class="ticket-detail-label">Payment</div>
-              <div class="ticket-detail-value">${booking.method}</div>
+              <div class="ticket-detail-label">Status</div>
+              <div class="ticket-detail-value" style="color:var(--acid)">${booking.status || 'Confirmed'}</div>
             </div>
           </div>
         </div>
@@ -80,7 +104,7 @@ function renderBookings() {
             ${isCancelled ? 'Cancelled' : 'Confirmed'}
           </div>
           <div class="ticket-price">
-            ₹${booking.total}
+            ₹${booking.totalPrice}
             <small>Total Paid</small>
           </div>
         </div>
@@ -96,22 +120,18 @@ function renderBookings() {
       <div class="ticket-bottom">
         <div class="ticket-extras">
           <div class="ticket-extra-item">
-            Booked: <strong>${booking.bookedAt}</strong>
+            Reference: <strong>ONLINE</strong>
           </div>
           <div class="ticket-extra-item">
-            Water: <strong>${booking.water}</strong>
+            Gate: <strong>MAIN</strong>
           </div>
-          ${booking.players > 0 ? `
-          <div class="ticket-extra-item">
-            Players: <strong>${booking.players}</strong>
-          </div>` : ''}
         </div>
 
         <div style="display:flex; align-items:center; gap:16px;">
           <div class="ticket-barcode">${bars}</div>
           ${isCancelled
             ? `<div class="cancelled-stamp">Booking Cancelled</div>`
-            : `<button class="cancel-ticket-btn" onclick="openCancelModal('${booking.id}')">Cancel Booking</button>`
+            : `<button class="cancel-ticket-btn" onclick="openCancelModal('${booking._id}')">Cancel Booking</button>`
           }
         </div>
       </div>
@@ -133,16 +153,28 @@ function closeModal() {
   cancelTargetId = null;
 }
 
-function confirmCancel() {
+async function confirmCancel() {
   if (!cancelTargetId) return;
 
-  allBookings = allBookings.map(b =>
-    b.id === cancelTargetId ? { ...b, status: 'cancelled' } : b
-  );
+  const session = JSON.parse(localStorage.getItem('ps_session'));
+  if (!session || !session.token) return;
 
-  localStorage.setItem('bookings', JSON.stringify(allBookings));
-  closeModal();
-  renderBookings();
+  try {
+    const res = await fetch(`${API_URL}/bookings/${cancelTargetId}`, {
+      method: 'DELETE',
+      headers: { 'x-auth-token': session.token }
+    });
+    
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.msg || 'Failed to cancel');
+    }
+
+    closeModal();
+    fetchMyBookings(); // Refresh list
+  } catch (err) {
+    alert(err.message);
+  }
 }
 
 // close modal on overlay click
@@ -157,4 +189,4 @@ function toggleMenu() {
 }
 
 // ── INIT ──
-renderBookings();
+fetchMyBookings();

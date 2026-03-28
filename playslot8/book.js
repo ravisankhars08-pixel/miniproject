@@ -20,12 +20,22 @@ function renderTurfs() {
   const grid = document.getElementById('turfGrid');
   grid.innerHTML = '';
   
-  if (turfs.length === 0) {
-    grid.innerHTML = `<p style="text-align:center; width:100%; grid-column:1/-1;">No turfs found in ${savedLocation}.</p>`;
+  const sportFilter = localStorage.getItem('homeSportFilter');
+  let filteredTurfs = [...turfs];
+  
+  if (sportFilter) {
+    filteredTurfs = turfs.filter(t => t.sports.toLowerCase().includes(sportFilter));
+  }
+  
+  if (filteredTurfs.length === 0) {
+    const msg = sportFilter 
+      ? `No turfs found in ${savedLocation} that support ${sportFilter}.` 
+      : `No turfs found in ${savedLocation}.`;
+    grid.innerHTML = `<p style="text-align:center; width:100%; grid-column:1/-1;">${msg}</p>`;
     return;
   }
   
-  turfs.forEach(t => {
+  filteredTurfs.forEach(t => {
     // Determine icon based on sport
     let icon = '🏟️';
     let sportClass = 'football-thumb';

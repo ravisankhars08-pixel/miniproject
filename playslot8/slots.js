@@ -14,8 +14,7 @@ document.getElementById('sportInfo').textContent      = savedSport;
 document.getElementById('courtTypeInfo').textContent  = savedCourtType;
 
 // ── PRICES ──
-const prices = { Football: 600, Basketball: 500, Cricket: 750 };
-const basePrice = prices[savedSport] || 600;
+const basePrice = parseInt(localStorage.getItem('slotPrice')) || 600;
 
 // ── DURATION ──
 let selectedDuration = 1;

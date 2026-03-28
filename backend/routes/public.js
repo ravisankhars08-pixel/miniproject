@@ -74,4 +74,23 @@ router.get('/my-bookings', auth, async (req, res) => {
   }
 });
 
+// Cancel a booking (User's own)
+router.delete('/bookings/:id', auth, async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
+
+    // Check ownership
+    if (booking.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    await Booking.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Booking cancelled' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

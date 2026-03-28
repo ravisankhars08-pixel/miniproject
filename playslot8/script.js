@@ -74,6 +74,8 @@ window.addEventListener('scroll', () => {
 // ── SPORT CARDS click ──
 document.querySelectorAll('.s-card').forEach(card => {
   card.addEventListener('click', () => {
+    const sportName = card.querySelector('strong').textContent.trim();
+    localStorage.setItem('homeSportFilter', sportName.toLowerCase());
     window.location.href = 'location.html';
   });
 });
@@ -145,3 +147,119 @@ if (track) {
   // start autoplay
   resetAutoPlay();
 }
+
+// ── DYNAMIC POPULAR TURFS ──
+async function fetchPopularTurfs() {
+  const grid = document.getElementById('indexTurfGrid');
+  if (!grid) return; // Only run on index.html
+
+  try {
+    const res = await fetch('http://localhost:5000/api/turfs');
+    if (!res.ok) throw new Error('Failed to fetch turfs');
+    
+    let allTurfs = await res.json();
+    
+    // Sort by rating (optional) and take top 3
+    allTurfs.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    const popTurfs = allTurfs.slice(0, 3);
+    
+    if (popTurfs.length === 0) {
+      grid.innerHTML = '<div style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;"><p>No turfs available yet. Admins, please add some!</p></div>';
+      return;
+    }
+    
+    grid.innerHTML = ''; // Clear loading text
+    
+    popTurfs.forEach(t => {
+      // Determine icon and color based on sport
+      let icon = '🏟️';
+      let sportClass = 'football-thumb';
+      const mainSport = (t.sports || '').split(',')[0].trim().toLowerCase();
+      
+      if (mainSport.includes('basket')) { 
+        icon = '🏀'; 
+        sportClass = 'basketball-thumb'; 
+      } else if (mainSport.includes('cricket')) { 
+        icon = '🏏'; 
+        sportClass = 'cricket-thumb'; 
+      } else if (mainSport.includes('foot')) { 
+        icon = '⚽'; 
+        sportClass = 'football-thumb'; 
+      }
+
+      // Format sports into badge spans
+      const sportBadges = (t.sports || '').split(',').map(s => `<span class="turf-sport">${s.trim()}</span>`).join('');
+      const locName = t.location ? t.location.name : 'Unknown';
+
+      // Build card HTML
+      const cardHtml = `
+        <div class="turf-card" data-id="${t._id}">
+          <div class="turf-thumb ${sportClass}">
+            <div class="turf-thumb-icon">${icon}</div>
+            <div class="turf-badge avail">Available</div>
+          </div>
+          <div class="turf-info">
+            <h4>${t.name}</h4>
+            <div class="turf-meta">
+              <span>📍 <strong>${locName}</strong></span>
+              <span>⭐ <strong>${(t.rating || 4.5).toFixed(1)}</strong></span>
+            </div>
+            <div class="turf-sports">${sportBadges}</div>
+            <div class="turf-foot">
+              <div class="turf-price">₹${t.pricePerHour} <small>/ hr</small></div>
+              <button class="btn-sm">Book Now</button>
+            </div>
+          </div>
+        </div>
+      `;
+      grid.insertAdjacentHTML('beforeend', cardHtml);
+    });
+
+    // Re-apply intersect observer for new cards
+    document.querySelectorAll('#indexTurfGrid .turf-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      if (typeof observer !== 'undefined') observer.observe(el);
+    });
+
+  // Re-attach listener for dynamically created buttons
+    document.querySelectorAll('#indexTurfGrid .btn-sm').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        
+        // Check if turf data is available on the button's parent
+        const card = btn.closest('.turf-card');
+        const turfName = card.querySelector('h4').textContent;
+        const locName = card.querySelector('.turf-meta strong').textContent;
+        const price = card.querySelector('.turf-price').textContent.replace('₹', '').split(' ')[0];
+        
+        // Find turf ID from the list if possible, but easier to just check session
+        const session = JSON.parse(localStorage.getItem('ps_session'));
+        
+        if (session && session.token) {
+          // Logged in: satisfy book.html requirements and skip login
+          localStorage.setItem('selectedTurf', turfName);
+          localStorage.setItem('selectedLocation', locName);
+          localStorage.setItem('slotPrice', price);
+          // We need the ID too. I'll modify the loop above to store ID in dataset.
+          const turfId = card.getAttribute('data-id');
+          localStorage.setItem('selectedTurfId', turfId);
+          
+          window.location.href = 'book.html';
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    });
+
+  } catch (err) {
+    console.error('Error loading turfs:', err);
+    grid.innerHTML = '<div style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;"><p style="color:red;">Error loading turfs from backend.</p></div>';
+  }
+}
+
+// Call on load
+document.addEventListener('DOMContentLoaded', () => {
+  fetchPopularTurfs();
+});

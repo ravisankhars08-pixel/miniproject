@@ -3,6 +3,7 @@ const API_URL = 'http://localhost:5000/api';
 let adminLocations = [];
 let adminTurfs = [];
 let adminBookings = [];
+let currentBookingFilter = 'all';
 
 // Get Token
 function getToken() {
@@ -11,13 +12,33 @@ function getToken() {
 }
 
 // Check auth
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const session = JSON.parse(localStorage.getItem('ps_session'));
-  if (!session || session.role !== 'admin') {
+  if (!session || !session.token) {
     window.location.href = 'login.html';
     return;
   }
-  fetchData();
+
+  try {
+    const res = await fetch(`${API_URL}/auth/me`, {
+      headers: { 'x-auth-token': session.token }
+    });
+    if (!res.ok) {
+      localStorage.removeItem('ps_session');
+      window.location.href = 'login.html';
+      return;
+    }
+    const user = await res.json();
+    if (user.role !== 'admin') {
+      localStorage.removeItem('ps_session');
+      window.location.href = 'login.html';
+      return;
+    }
+    fetchData();
+  } catch (err) {
+    console.error('Auth check failed:', err);
+    window.location.href = 'login.html';
+  }
 });
 
 // ── FETCH DATA FROM BACKEND ──
@@ -127,7 +148,17 @@ function renderBookings() {
     return;
   }
 
-  [...adminBookings].reverse().forEach((b) => {
+  let filtered = [...adminBookings].reverse();
+  if (currentBookingFilter !== 'all') {
+    filtered = filtered.filter(b => b.status === currentBookingFilter);
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 2rem;">No ${currentBookingFilter} bookings found.</td></tr>`;
+    return;
+  }
+
+  filtered.forEach((b) => {
     const userName = b.user ? b.user.name : 'Unknown User';
     const turfName = b.turf ? b.turf.name : 'Unknown Turf';
     
@@ -144,6 +175,14 @@ function renderBookings() {
       </tr>
     `;
   });
+}
+
+function filterBookings(status) {
+  currentBookingFilter = status;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  const activeTab = document.querySelector(`.filter-tab[data-filter="${status}"]`);
+  if (activeTab) activeTab.classList.add('active');
+  renderBookings();
 }
 
 // ── ACTIONS ──

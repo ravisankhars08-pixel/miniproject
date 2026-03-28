@@ -61,7 +61,7 @@
   </div>
 
   <div class="hero-right">
-    <div class="s-card" onclick="window.location.href='location.html'">
+    <div class="s-card">
       <div class="s-card-inner football">
         <svg class="pitch-svg" viewBox="0 0 200 340" fill="none">
           <rect x="10" y="10" width="180" height="320" rx="4" stroke="#9cff00" stroke-width="2"/>
@@ -80,7 +80,7 @@
       <div class="book-tag">BOOK →</div>
     </div>
 
-    <div class="s-card" onclick="window.location.href='location.html'">
+    <div class="s-card">
       <div class="s-card-inner basketball">
         <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
           <rect x="10" y="10" width="180" height="140" rx="4" stroke="#ffc107" stroke-width="2"/>
@@ -95,7 +95,7 @@
       <div class="book-tag">BOOK →</div>
     </div>
 
-    <div class="s-card" onclick="window.location.href='location.html'">
+    <div class="s-card">
       <div class="s-card-inner cricket">
         <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
           <ellipse cx="100" cy="80" rx="90" ry="68" stroke="#4fc3f7" stroke-width="2"/>
@@ -139,33 +139,9 @@
 <section class="turfs" id="turfs">
   <div class="section-label">Featured Venues</div>
   <div class="section-title">POPULAR <span>TURFS</span></div>
-  <div class="turf-grid">
-    <div class="turf-card">
-      <div class="turf-thumb football-thumb"><div class="turf-thumb-icon">⚽</div><div class="turf-badge avail">Available</div></div>
-      <div class="turf-info">
-        <h4>Gyras Sports Hub</h4>
-        <div class="turf-meta"><span>📍 <strong>Kottayam</strong></span><span>⭐ <strong>4.8</strong></span></div>
-        <div class="turf-sports"><span class="turf-sport">Football</span><span class="turf-sport">Cricket</span></div>
-        <div class="turf-foot"><div class="turf-price">₹600 <small>/ hr</small></div><button class="btn-sm" onclick="window.location.href='location.html'">Book Now</button></div>
-      </div>
-    </div>
-    <div class="turf-card">
-      <div class="turf-thumb basketball-thumb"><div class="turf-thumb-icon">🏀</div><div class="turf-badge avail">Available</div></div>
-      <div class="turf-info">
-        <h4>Urban Turf Arena</h4>
-        <div class="turf-meta"><span>📍 <strong>Ernakulam</strong></span><span>⭐ <strong>4.6</strong></span></div>
-        <div class="turf-sports"><span class="turf-sport">Basketball</span><span class="turf-sport">Football</span></div>
-        <div class="turf-foot"><div class="turf-price">₹500 <small>/ hr</small></div><button class="btn-sm" onclick="window.location.href='location.html'">Book Now</button></div>
-      </div>
-    </div>
-    <div class="turf-card">
-      <div class="turf-thumb cricket-thumb"><div class="turf-thumb-icon">🏏</div><div class="turf-badge hot">Filling Fast</div></div>
-      <div class="turf-info">
-        <h4>PlayZone Stadium</h4>
-        <div class="turf-meta"><span>📍 <strong>Thrissur</strong></span><span>⭐ <strong>4.9</strong></span></div>
-        <div class="turf-sports"><span class="turf-sport">Cricket</span><span class="turf-sport">Football</span><span class="turf-sport">Basketball</span></div>
-        <div class="turf-foot"><div class="turf-price">₹750 <small>/ hr</small></div><button class="btn-sm" onclick="window.location.href='location.html'">Book Now</button></div>
-      </div>
+  <div class="turf-grid" id="indexTurfGrid">
+    <div style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+      <p>Loading popular turfs...</p>
     </div>
   </div>
 </section>
@@ -195,5 +171,6 @@
 </footer>
 
 <script src="script.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>
