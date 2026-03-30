@@ -126,7 +126,19 @@ router.get('/reviews', adminAuth, async (req, res) => {
 // Delete review (Admin)
 router.delete('/reviews/:id', adminAuth, async (req, res) => {
   try {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).json({ msg: 'Review not found' });
+    
     await Review.findByIdAndDelete(req.params.id);
+    
+    // Update turf rating
+    const reviews = await Review.find({ turf: review.turf });
+    const turf = await Turf.findById(review.turf);
+    if(turf) {
+      turf.rating = reviews.length ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length) : 0;
+      await turf.save();
+    }
+    
     res.json({ msg: 'Review deleted by admin' });
   } catch (err) {
     res.status(500).send('Server error');

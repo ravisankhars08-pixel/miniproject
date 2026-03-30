@@ -36,24 +36,35 @@ function renderTurfs() {
   }
   
   filteredTurfs.forEach(t => {
-    // Determine icon based on sport
-    let icon = '🏟️';
-    let sportClass = 'football-thumb';
-    const mainSport = t.sports.split(',')[0].trim().toLowerCase();
-    if (mainSport.includes('basket')) { icon = '🏀'; sportClass = 'basketball-thumb'; }
-    else if (mainSport.includes('cricket')) { icon = '🏏'; sportClass = 'cricket-thumb'; }
-    else if (mainSport.includes('foot')) { icon = '⚽'; sportClass = 'football-thumb'; }
+    const sportsArr = (t.sports || '').split(',').map(s => s.trim());
     
-    // Pass the actual turf ID and main sport
+    const segmentsHtml = sportsArr.map(sp => {
+      let spIcon = '🏟️';
+      let spClass = 'football-thumb';
+      let lc = sp.toLowerCase();
+      if(lc.includes('basket')) { spIcon = '🏀'; spClass = 'basketball-thumb'; }
+      else if(lc.includes('cricket')) { spIcon = '🏏'; spClass = 'cricket-thumb'; }
+      else if(lc.includes('foot')) { spIcon = '⚽'; spClass = 'football-thumb'; }
+      
+      return `<div class="${spClass}" style="flex:1; display:flex; align-items:center; justify-content:center; min-height:100%;">
+                <div class="turf-thumb-icon">${spIcon}</div>
+              </div>`;
+    }).join('');
+    
+    const thumbHtml = `
+      <div class="turf-book-thumb" style="display:flex; padding:0; overflow:hidden;">
+        ${segmentsHtml}
+        <div class="turf-book-badge" style="z-index:2;">${t.sports}</div>
+      </div>
+    `;
+    
+    // Pass the actual turf ID and full sports string
     grid.innerHTML += `
-      <div class="turf-book-card" id="turf-${t._id}" onclick="selectTurf('${t.name}', '${t.sports}', '${t._id}', '${t.pricePerHour}')">
-        <div class="turf-book-thumb ${sportClass}">
-          <div class="turf-thumb-icon">${icon}</div>
-          <div class="turf-book-badge">${t.sports}</div>
-        </div>
+      <div class="turf-book-card" id="turf-${t._id}" onclick="selectTurf(this, '${t.name}', '${t.sports}', '${t._id}', '${t.pricePerHour}')">
+        ${thumbHtml}
         <div class="turf-book-info">
           <h4>${t.name}</h4>
-          <small>📍 <span>${savedLocation}</span> &nbsp;|&nbsp; ⭐ ${t.rating || 4.5} &nbsp;|&nbsp; ₹${t.pricePerHour}/hr</small>
+          <small>📍 <span>${savedLocation}</span> &nbsp;|&nbsp; ⭐ ${t.rating > 0 ? t.rating.toFixed(1) : 'New'} &nbsp;|&nbsp; ₹${t.pricePerHour}/hr</small>
         </div>
       </div>
     `;
@@ -106,29 +117,67 @@ window.addEventListener('DOMContentLoaded', fetchTurfs);
 let selectedTurf  = null;
 let selectedSport = null;
 
-function selectTurf(turfName, sport, id, price) {
-  selectedTurf  = turfName;
-  selectedSport = sport;
-
-  localStorage.setItem('selectedTurf',  turfName);
-  localStorage.setItem('selectedSport', sport);
-  localStorage.setItem('selectedTurfId', id);
-  localStorage.setItem('slotPrice', price);
+function selectTurf(cardEl, turfName, sportStr, id, price, explicitSport = null) {
+  const sportsArr = (sportStr || '').split(',').map(s => s.trim());
+  const targetCard = cardEl || document.getElementById(`turf-${id}`);
 
   // highlight selected card
   document.querySelectorAll('.turf-book-card').forEach(c => c.classList.remove('selected'));
-  event.currentTarget.classList.add('selected');
-
-  // show sport specific options
+  if (targetCard) targetCard.classList.add('selected');
+  
   const section = document.getElementById('sportOptionsSection');
   section.style.display = 'block';
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  if (!explicitSport && sportsArr.length > 1) {
+    // Show sport selection
+    let html = `<p class="option-hint">This turf has multiple sports. Please select one:</p>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">`;
+    sportsArr.forEach(sp => {
+       html += `<button class="btn-primary" style="padding:10px 20px;" onclick="selectTurf(document.getElementById('turf-${id}'), '${turfName}', '${sportStr}', '${id}', '${price}', '${sp}')">${sp}</button>`;
+    });
+    html += `</div>`;
+    
+    document.getElementById('sportOptionsTitle').innerHTML = 'Select <span>Sport</span>';
+    // Hide standard options initially until sport is chosen
+    document.getElementById('footballOptions').style.display = 'none';
+    document.getElementById('basketballOptions').style.display = 'none';
+    document.getElementById('cricketOptions').style.display = 'none';
+    
+    // Inject sport selector temporarily and remove it when calling selectTurf again
+    let sportPicker = document.getElementById('tempSportPicker');
+    if (!sportPicker) {
+      sportPicker = document.createElement('div');
+      sportPicker.id = 'tempSportPicker';
+      sportPicker.style.marginBottom = '2rem';
+      section.insertBefore(sportPicker, document.getElementById('footballOptions'));
+    }
+    sportPicker.innerHTML = html;
+    sportPicker.style.display = 'block';
+
+    document.getElementById('proceedWrap').style.display = 'none';
+    return;
+  }
+  
+  // Clean up explicit sport picker if it was shown
+  const tempPicker = document.getElementById('tempSportPicker');
+  if (tempPicker) tempPicker.style.display = 'none';
+
+  const chosenSport = explicitSport || sportsArr[0];
+
+  selectedTurf  = turfName;
+  selectedSport = chosenSport;
+
+  localStorage.setItem('selectedTurf',  turfName);
+  localStorage.setItem('selectedSport', chosenSport);
+  localStorage.setItem('selectedTurfId', id);
+  localStorage.setItem('slotPrice', price);
 
   document.getElementById('footballOptions').style.display   = 'none';
   document.getElementById('basketballOptions').style.display = 'none';
   document.getElementById('cricketOptions').style.display    = 'none';
 
-  const mainSport = sport.toLowerCase();
+  const mainSport = chosenSport.toLowerCase();
 
   if (mainSport.includes('foot')) {
     document.getElementById('sportOptionsTitle').innerHTML  = 'Choose Court <span>Type</span>';

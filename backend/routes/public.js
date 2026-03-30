@@ -166,6 +166,15 @@ router.post('/reviews', auth, async (req, res) => {
     });
 
     await review.save();
+    
+    // Update turf rating
+    const reviews = await Review.find({ turf: turfId });
+    const turf = await Turf.findById(turfId);
+    if(turf) {
+      turf.rating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+      await turf.save();
+    }
+
     res.json(review);
   } catch (err) {
     console.error(err);
@@ -181,6 +190,15 @@ router.delete('/reviews/:id', auth, async (req, res) => {
     if (review.user.toString() !== req.user.id) return res.status(401).json({ msg: 'Unauthorized' });
 
     await Review.findByIdAndDelete(req.params.id);
+    
+    // Update turf rating
+    const reviews = await Review.find({ turf: review.turf });
+    const turf = await Turf.findById(review.turf);
+    if(turf) {
+      turf.rating = reviews.length ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length) : 0;
+      await turf.save();
+    }
+
     res.json({ msg: 'Review deleted' });
   } catch (err) {
     res.status(500).send('Server error');

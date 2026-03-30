@@ -7,7 +7,7 @@ const ReviewSchema = new mongoose.Schema({
   rating: { type: Number, required: true, min: 1, max: 5 },
   comment: { type: String, required: true, maxlength: 1000 },
   isAnonymous: { type: Boolean, default: false },
-  isVerified: { type: Boolean, default: true }, // Default true for now if booking exists
+  isVerified: { type: Boolean, default: false }, // Verified if admin explicitly enables it
   createdAt: { type: Date, default: Date.now },
 });
 

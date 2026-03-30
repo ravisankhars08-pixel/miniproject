@@ -171,43 +171,58 @@ async function fetchPopularTurfs() {
     grid.innerHTML = ''; // Clear loading text
     
     popTurfs.forEach(t => {
-      // Determine icon and color based on sport
-      let icon = '🏟️';
-      let sportClass = 'football-thumb';
-      const mainSport = (t.sports || '').split(',')[0].trim().toLowerCase();
+      // Determine icons and colors based on sport
+      const sportsArr = (t.sports || '').split(',').map(s => s.trim());
       
-      if (mainSport.includes('basket')) { 
-        icon = '🏀'; 
-        sportClass = 'basketball-thumb'; 
-      } else if (mainSport.includes('cricket')) { 
-        icon = '🏏'; 
-        sportClass = 'cricket-thumb'; 
-      } else if (mainSport.includes('foot')) { 
-        icon = '⚽'; 
-        sportClass = 'football-thumb'; 
-      }
+      // Build thumb HTML for multiple sports
+      const segmentsHtml = sportsArr.map(sp => {
+        let spIcon = '🏟️';
+        let spClass = 'football-thumb';
+        let lc = sp.toLowerCase();
+        if(lc.includes('basket')) { spIcon = '🏀'; spClass = 'basketball-thumb'; }
+        else if(lc.includes('cricket')) { spIcon = '🏏'; spClass = 'cricket-thumb'; }
+        else if(lc.includes('foot')) { spIcon = '⚽'; spClass = 'football-thumb'; }
+        
+        return `<div class="${spClass}" style="flex:1; display:flex; align-items:center; justify-content:center; min-height:100%;">
+                  <div class="turf-thumb-icon">${spIcon}</div>
+                </div>`;
+      }).join('');
+      
+      const thumbHtml = `
+        <div class="turf-thumb" style="display:flex; padding:0; overflow:hidden;">
+          ${segmentsHtml}
+          <div class="turf-badge avail" style="z-index:2;">Available</div>
+        </div>
+      `;
 
       // Format sports into badge spans
-      const sportBadges = (t.sports || '').split(',').map(s => `<span class="turf-sport">${s.trim()}</span>`).join('');
+      const sportBadges = sportsArr.map(s => `<span class="turf-sport">${s}</span>`).join('');
       const locName = t.location ? t.location.name : 'Unknown';
+
+      // Build buttons based on number of sports
+      let buttonsHtml = '';
+      if(sportsArr.length > 1) {
+        buttonsHtml = `<div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end; width:100%; margin-top:10px;">` + 
+                      sportsArr.map(s => `<button class="btn-sm sport-book-btn" data-sport="${s}" style="font-size:0.8rem; padding: 0.4rem 0.8rem;">Book ${s}</button>`).join('') + 
+                      `</div>`;
+      } else {
+        buttonsHtml = `<button class="btn-sm sport-book-btn" data-sport="${sportsArr[0]}">Book Now</button>`;
+      }
 
       // Build card HTML
       const cardHtml = `
         <div class="turf-card" data-id="${t._id}">
-          <div class="turf-thumb ${sportClass}">
-            <div class="turf-thumb-icon">${icon}</div>
-            <div class="turf-badge avail">Available</div>
-          </div>
+          ${thumbHtml}
           <div class="turf-info">
             <h4>${t.name}</h4>
             <div class="turf-meta">
               <span>📍 <strong>${locName}</strong></span>
-              <span>⭐ <strong>${(t.rating || 4.5).toFixed(1)}</strong></span>
+              <span>⭐ <strong>${t.rating > 0 ? t.rating.toFixed(1) : 'New'}</strong></span>
             </div>
             <div class="turf-sports">${sportBadges}</div>
-            <div class="turf-foot">
+            <div class="turf-foot" style="flex-wrap: wrap;">
               <div class="turf-price">₹${t.pricePerHour} <small>/ hr</small></div>
-              <button class="btn-sm">Book Now</button>
+              ${buttonsHtml}
             </div>
           </div>
         </div>
@@ -224,7 +239,7 @@ async function fetchPopularTurfs() {
     });
 
   // Re-attach listener for dynamically created buttons
-    document.querySelectorAll('#indexTurfGrid .btn-sm').forEach(btn => {
+    document.querySelectorAll('#indexTurfGrid .sport-book-btn').forEach(btn => {
       btn.addEventListener('click', e => {
         e.stopPropagation();
         
@@ -233,6 +248,7 @@ async function fetchPopularTurfs() {
         const turfName = card.querySelector('h4').textContent;
         const locName = card.querySelector('.turf-meta strong').textContent;
         const price = card.querySelector('.turf-price').textContent.replace('₹', '').split(' ')[0];
+        const chosenSport = btn.getAttribute('data-sport');
         
         // Find turf ID from the list if possible, but easier to just check session
         const session = JSON.parse(localStorage.getItem('ps_session'));
@@ -240,6 +256,7 @@ async function fetchPopularTurfs() {
         if (session && session.token) {
           // Logged in: satisfy book.html requirements and skip login
           localStorage.setItem('selectedTurf', turfName);
+          localStorage.setItem('selectedSport', chosenSport);
           localStorage.setItem('selectedLocation', locName);
           localStorage.setItem('slotPrice', price);
           // We need the ID too. I'll modify the loop above to store ID in dataset.
