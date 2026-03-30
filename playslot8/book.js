@@ -111,7 +111,26 @@ for (let i = 0; i < 30; i++) {
 }
 
 // Fetch on load
-window.addEventListener('DOMContentLoaded', fetchTurfs);
+window.addEventListener('DOMContentLoaded', async () => {
+  await fetchTurfs();
+  
+  // Auto-select if coming from Popular Turfs
+  const preId = localStorage.getItem('selectedTurfId');
+  const preSport = localStorage.getItem('selectedSport');
+  const preTurf = localStorage.getItem('selectedTurf');
+  const prePrice = localStorage.getItem('slotPrice');
+  
+  if (preId && preSport) {
+    // Find the turf object to get full sports string
+    const t = turfs.find(x => x._id === preId);
+    if (t) {
+      // Use setTimeout to ensure DOM is fully ready and rendered
+      setTimeout(() => {
+        selectTurf(null, t.name, t.sports, t._id, t.pricePerHour, preSport);
+      }, 100);
+    }
+  }
+});
 
 // ── TURF SELECTION ──
 let selectedTurf  = null;
@@ -168,8 +187,9 @@ function selectTurf(cardEl, turfName, sportStr, id, price, explicitSport = null)
   selectedTurf  = turfName;
   selectedSport = chosenSport;
 
+  const normalizedSport = chosenSport.trim().charAt(0).toUpperCase() + chosenSport.trim().slice(1).toLowerCase();
   localStorage.setItem('selectedTurf',  turfName);
-  localStorage.setItem('selectedSport', chosenSport);
+  localStorage.setItem('selectedSport', normalizedSport);
   localStorage.setItem('selectedTurfId', id);
   localStorage.setItem('slotPrice', price);
 

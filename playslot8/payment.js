@@ -152,6 +152,7 @@ async function confirmPayment() {
       },
       body: JSON.stringify({
         turfId: turfId,
+        sport: savedSport,
         date: savedDate,
         slot: savedSlot,
         courtType: savedCourt,

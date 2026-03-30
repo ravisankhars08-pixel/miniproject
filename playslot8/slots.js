@@ -59,8 +59,9 @@ const turfId = localStorage.getItem('selectedTurfId');
 
 async function fetchAvailability() {
   if (!turfId) return;
+  const normalizedSport = savedSport.trim().charAt(0).toUpperCase() + savedSport.trim().slice(1).toLowerCase();
   try {
-    const res = await fetch(`http://localhost:5000/api/bookings/check-availability?turfId=${turfId}&date=${encodeURIComponent(savedDate)}`);
+    const res = await fetch(`http://localhost:5000/api/bookings/check-availability?turfId=${turfId}&date=${encodeURIComponent(savedDate)}&sport=${encodeURIComponent(normalizedSport)}`);
     if (res.ok) {
       bookedSlots = await res.json();
     }
@@ -97,7 +98,12 @@ function buildSlots() {
 
     const slotString = `${slot.label} — ${endLabel}`;
     const isBooked = bookedSlots.includes(slotString);
-    const price    = basePrice * selectedDuration;
+    
+    // ADJUST PRICE FOR HALF COURT
+    let price = basePrice * selectedDuration;
+    if (savedCourtType.toLowerCase().includes('half')) {
+      price = price / 2;
+    }
 
     const btn = document.createElement('div');
     btn.classList.add('slot-btn');

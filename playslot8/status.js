@@ -46,8 +46,10 @@ function renderBookings() {
 
   // newest first (past 3 only)
   [...allBookings].reverse().slice(0, 3).forEach(booking => {
-    // Determine sport - if not explicitly saved, try to deduce from turf or default
-    const sport = booking.sport || (booking.turf && (booking.turf.sports || '').split(',')[0].trim()) || 'Football';
+    // Normalize sport - trim and capitalize first letter
+    let sport = booking.sport || (booking.turf && (booking.turf.sports || '').split(',')[0].trim()) || 'Football';
+    sport = sport.trim().charAt(0).toUpperCase() + sport.trim().slice(1).toLowerCase();
+    
     const config = sportConfig[sport] || { class: 'football', icon: '⚽' };
     const isCancelled = booking.status === 'cancelled';
 

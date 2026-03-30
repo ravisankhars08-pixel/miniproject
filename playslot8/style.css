@@ -501,9 +501,21 @@ nav {
   align-items: center;
   justify-content: center;
 }
-.football-thumb   { background: linear-gradient(135deg, #0a2a0a, #1c5c1c); }
-.basketball-thumb { background: linear-gradient(135deg, #1a1a0a, #4a3a0a); }
-.cricket-thumb    { background: linear-gradient(135deg, #0a0a2a, #1a1a5a); }
+.football-thumb   { 
+  background: linear-gradient(135deg, #0a2a0a, #1c5c1c); 
+  background-image: linear-gradient(135deg, #0a2a0a, #1c5c1c), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 340' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='2'%3E%3Crect x='10' y='10' width='180' height='320' rx='4'/%3E%3Cline x1='10' y1='170' x2='190' y2='170'/%3E%3Ccircle cx='100' cy='170' r='30'/%3E%3Crect x='60' y='10' width='80' height='44'/%3E%3Crect x='60' y='286' width='80' height='44'/%3E%3C/svg%3E");
+  background-size: cover;
+}
+.basketball-thumb { 
+  background: linear-gradient(135deg, #1a1a0a, #4a3a0a); 
+  background-image: linear-gradient(135deg, #1a1a0a, #4a3a0a), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='2'%3E%3Crect x='10' y='10' width='180' height='140' rx='4'/%3E%3Cline x1='100' y1='10' x2='100' y2='150'/%3E%3Ccircle cx='100' cy='80' r='20'/%3E%3Crect x='10' y='50' width='35' height='60'/%3E%3Crect x='155' y='50' width='35' height='60'/%3E%3C/svg%3E");
+  background-size: cover;
+}
+.cricket-thumb    { 
+  background: linear-gradient(135deg, #0a0a2a, #1a1a5a); 
+  background-image: linear-gradient(135deg, #0a0a2a, #1a1a5a), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 160' fill='none' stroke='white' stroke-opacity='0.1' stroke-width='2'%3E%3Cellipse cx='100' cy='80' rx='90' ry='68'/%3E%3Crect x='90' y='30' width='20' height='100'/%3E%3C/svg%3E");
+  background-size: cover;
+}
 
 .turf-thumb-icon { font-size: 64px; opacity: 0.25; }
 

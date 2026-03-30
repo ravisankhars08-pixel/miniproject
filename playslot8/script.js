@@ -154,14 +154,10 @@ async function fetchPopularTurfs() {
   if (!grid) return; // Only run on index.html
 
   try {
-    const res = await fetch('http://localhost:5000/api/turfs');
+    const res = await fetch('http://localhost:5000/api/turfs/popular');
     if (!res.ok) throw new Error('Failed to fetch turfs');
     
-    let allTurfs = await res.json();
-    
-    // Sort by rating (optional) and take top 3
-    allTurfs.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-    const popTurfs = allTurfs.slice(0, 3);
+    let popTurfs = await res.json();
     
     if (popTurfs.length === 0) {
       grid.innerHTML = '<div style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;"><p>No turfs available yet. Admins, please add some!</p></div>';
@@ -255,11 +251,13 @@ async function fetchPopularTurfs() {
         
         if (session && session.token) {
           // Logged in: satisfy book.html requirements and skip login
+          const normalizedSport = chosenSport.trim().charAt(0).toUpperCase() + chosenSport.trim().slice(1).toLowerCase();
           localStorage.setItem('selectedTurf', turfName);
-          localStorage.setItem('selectedSport', chosenSport);
+          localStorage.setItem('selectedSport', normalizedSport);
           localStorage.setItem('selectedLocation', locName);
           localStorage.setItem('slotPrice', price);
-          // We need the ID too. I'll modify the loop above to store ID in dataset.
+          localStorage.setItem('homeSportFilter', normalizedSport.toLowerCase()); // Fix for "no turfs for cricket" bug
+          
           const turfId = card.getAttribute('data-id');
           localStorage.setItem('selectedTurfId', turfId);
           

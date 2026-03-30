@@ -1,176 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlaySlot — Book Your Turf</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlaySlot — Book Your Turf</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <div class="logo">play<span>Slot</span></div>
-  <div class="nav-links">
-    <a href="index.html" class="active">Home</a>
-    <a href="#turfs">Turfs</a>
-    <a href="#how">How It Works</a>
-    <a href="location.html">Location</a>
-    <a href="login.html">Login</a>
-    <a class="cta" href="location.html">Book Now </a>
-  </div>
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
-</nav>
-
-<!-- HERO -->
-<section class="hero" id="home">
-  <div class="hero-grid"></div>
-
-  <div class="hero-left">
-    <div class="hero-tag"><span class="dot"></span> Kerala's #1 Turf Booking Platform</div>
-
-    <h1 class="hero-h1">
-      <em>BOOK YOUR</em>
-      <b class="acid">SLOT.</b>
-      <b class="stroke">OWN</b>
-      <em>THE GAME.</em>
-    </h1>
-
-    <p class="hero-sub">Find and book premium turf courts across Kerala instantly. Football, basketball, cricket — your squad, your schedule.</p>
-
-    <!-- ROTATING QUOTE -->
-    <div class="hero-quote">
-      <span class="hq-mark">"</span>
-      <span class="hq-text" id="hqText"></span>
-      <span class="hq-author" id="hqAuthor"></span>
+  <!-- NAV -->
+  <nav>
+    <div class="logo">play<span>Slot</span></div>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="#turfs">Turfs</a>
+      <a href="#how">How It Works</a>
+      <a href="location.html">Location</a>
+      <a href="login.html">Login</a>
+      <a class="cta" href="location.html">Book Now </a>
     </div>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+  </nav>
 
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="window.location.href='location.html'">Browse Turfs →</button>
-      <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it Works</button>
-    </div>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-grid"></div>
 
-    <div class="hero-stats">
-      <div class="stat"><strong>48<span>+</span></strong><em>Turfs</em></div>
-      <div class="stat"><strong>12<span>k</span></strong><em>Bookings</em></div>
-      <div class="stat"><strong>3<span>★</span></strong><em>Sports</em></div>
-    </div>
-  </div>
+    <div class="hero-left">
+      <div class="hero-tag"><span class="dot"></span> Kerala's #1 Turf Booking Platform</div>
 
-  <div class="hero-right">
-    <div class="s-card">
-      <div class="s-card-inner football">
-        <svg class="pitch-svg" viewBox="0 0 200 340" fill="none">
-          <rect x="10" y="10" width="180" height="320" rx="4" stroke="#9cff00" stroke-width="2"/>
-          <line x1="10" y1="170" x2="190" y2="170" stroke="#9cff00" stroke-width="2"/>
-          <circle cx="100" cy="170" r="30" stroke="#9cff00" stroke-width="2"/>
-          <rect x="60" y="10" width="80" height="44" stroke="#9cff00" stroke-width="2"/>
-          <rect x="60" y="286" width="80" height="44" stroke="#9cff00" stroke-width="2"/>
-          <rect x="80" y="10" width="40" height="22" stroke="#9cff00" stroke-width="1.5"/>
-          <rect x="80" y="308" width="40" height="22" stroke="#9cff00" stroke-width="1.5"/>
-          <circle cx="100" cy="48" r="4" fill="#9cff00"/>
-          <circle cx="100" cy="292" r="4" fill="#9cff00"/>
-        </svg>
-        <div class="sport-icon">⚽</div>
+      <h1 class="hero-h1">
+        <b>BOOK YOUR</b>
+        <b class="acid">SLOT.</b>
+        <b class="stroke"><i>BRING</b>
+        <em>YOUR SQUAD.</em></i>
+      </h1>
+
+      <p class="hero-sub">Find and book premium turf courts across Kerala instantly. Football, basketball, cricket —
+        your squad, your schedule.</p>
+
+      <!-- ROTATING QUOTE -->
+      <div class="hero-quote">
+        <span class="hq-mark">"</span>
+        <span class="hq-text" id="hqText"></span>
+        <span class="hq-author" id="hqAuthor"></span>
       </div>
-      <div class="s-card-label"><small>Most Popular</small><strong>Football</strong></div>
-      <div class="book-tag">BOOK →</div>
-    </div>
 
-    <div class="s-card">
-      <div class="s-card-inner basketball">
-        <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
-          <rect x="10" y="10" width="180" height="140" rx="4" stroke="#ffc107" stroke-width="2"/>
-          <line x1="100" y1="10" x2="100" y2="150" stroke="#ffc107" stroke-width="2"/>
-          <circle cx="100" cy="80" r="20" stroke="#ffc107" stroke-width="2"/>
-          <rect x="10" y="40" width="50" height="80" rx="2" stroke="#ffc107" stroke-width="2"/>
-          <rect x="140" y="40" width="50" height="80" rx="2" stroke="#ffc107" stroke-width="2"/>
-        </svg>
-        <div class="sport-icon">🏀</div>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="window.location.href='location.html'">Browse Turfs →</button>
+        <button class="btn-outline" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it
+          Works</button>
       </div>
-      <div class="s-card-label"><small>Indoor & Outdoor</small><strong>Basketball</strong></div>
-      <div class="book-tag">BOOK →</div>
-    </div>
 
-    <div class="s-card">
-      <div class="s-card-inner cricket">
-        <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
-          <ellipse cx="100" cy="80" rx="90" ry="68" stroke="#4fc3f7" stroke-width="2"/>
-          <rect x="90" y="30" width="20" height="100" stroke="#4fc3f7" stroke-width="2"/>
-          <line x1="90" y1="30" x2="80" y2="10" stroke="#4fc3f7" stroke-width="1.5"/>
-          <line x1="100" y1="30" x2="100" y2="10" stroke="#4fc3f7" stroke-width="1.5"/>
-          <line x1="110" y1="30" x2="120" y2="10" stroke="#4fc3f7" stroke-width="1.5"/>
-          <line x1="90" y1="130" x2="80" y2="150" stroke="#4fc3f7" stroke-width="1.5"/>
-          <line x1="100" y1="130" x2="100" y2="150" stroke="#4fc3f7" stroke-width="1.5"/>
-          <line x1="110" y1="130" x2="120" y2="150" stroke="#4fc3f7" stroke-width="1.5"/>
-        </svg>
-        <div class="sport-icon">🏏</div>
+      <div class="hero-stats">
+        <div class="stat"><strong>48<span>+</span></strong><em>Turfs</em></div>
+        <div class="stat"><strong>12<span>k</span></strong><em>Bookings</em></div>
+        <div class="stat"><strong>3<span>★</span></strong><em>Sports</em></div>
       </div>
-      <div class="s-card-label"><small>Box Cricket</small><strong>Cricket</strong></div>
-      <div class="book-tag">BOOK →</div>
+    </div>
+
+    <div class="hero-right">
+      <div class="s-card">
+        <div class="s-card-inner football">
+          <svg class="pitch-svg" viewBox="0 0 200 340" fill="none">
+            <rect x="10" y="10" width="180" height="320" rx="4" stroke="#9cff00" stroke-width="2" />
+            <line x1="10" y1="170" x2="190" y2="170" stroke="#9cff00" stroke-width="2" />
+            <circle cx="100" cy="170" r="30" stroke="#9cff00" stroke-width="2" />
+            <rect x="60" y="10" width="80" height="44" stroke="#9cff00" stroke-width="2" />
+            <rect x="60" y="286" width="80" height="44" stroke="#9cff00" stroke-width="2" />
+            <rect x="80" y="10" width="40" height="22" stroke="#9cff00" stroke-width="1.5" />
+            <rect x="80" y="308" width="40" height="22" stroke="#9cff00" stroke-width="1.5" />
+            <circle cx="100" cy="48" r="4" fill="#9cff00" />
+            <circle cx="100" cy="292" r="4" fill="#9cff00" />
+          </svg>
+          <div class="sport-icon">⚽</div>
+        </div>
+        <div class="s-card-label"><small>Most Popular</small><strong>Football</strong></div>
+        <div class="book-tag">BOOK →</div>
+      </div>
+
+      <div class="s-card">
+        <div class="s-card-inner basketball">
+          <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
+            <rect x="10" y="10" width="180" height="140" rx="4" stroke="#ffc107" stroke-width="2" />
+            <line x1="100" y1="10" x2="100" y2="150" stroke="#ffc107" stroke-width="2" />
+            <circle cx="100" cy="80" r="20" stroke="#ffc107" stroke-width="2" />
+            <rect x="10" y="40" width="50" height="80" rx="2" stroke="#ffc107" stroke-width="2" />
+            <rect x="140" y="40" width="50" height="80" rx="2" stroke="#ffc107" stroke-width="2" />
+          </svg>
+          <div class="sport-icon">🏀</div>
+        </div>
+        <div class="s-card-label"><small>Indoor & Outdoor</small><strong>Basketball</strong></div>
+        <div class="book-tag">BOOK →</div>
+      </div>
+
+      <div class="s-card">
+        <div class="s-card-inner cricket">
+          <svg class="pitch-svg" viewBox="0 0 200 160" fill="none">
+            <ellipse cx="100" cy="80" rx="90" ry="68" stroke="#4fc3f7" stroke-width="2" />
+            <rect x="90" y="30" width="20" height="100" stroke="#4fc3f7" stroke-width="2" />
+            <line x1="90" y1="30" x2="80" y2="10" stroke="#4fc3f7" stroke-width="1.5" />
+            <line x1="100" y1="30" x2="100" y2="10" stroke="#4fc3f7" stroke-width="1.5" />
+            <line x1="110" y1="30" x2="120" y2="10" stroke="#4fc3f7" stroke-width="1.5" />
+            <line x1="90" y1="130" x2="80" y2="150" stroke="#4fc3f7" stroke-width="1.5" />
+            <line x1="100" y1="130" x2="100" y2="150" stroke="#4fc3f7" stroke-width="1.5" />
+            <line x1="110" y1="130" x2="120" y2="150" stroke="#4fc3f7" stroke-width="1.5" />
+          </svg>
+          <div class="sport-icon">🏏</div>
+        </div>
+        <div class="s-card-label"><small>Box Cricket</small><strong>Cricket</strong></div>
+        <div class="book-tag">BOOK →</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES BAR -->
+  <div class="features-bar">
+    <div class="feat">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-text"><strong>Instant Confirmation</strong><span>Real-time slot availability</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📍</div>
+      <div class="feat-text"><strong>Multiple Locations</strong><span>Turfs across Kerala</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🔒</div>
+      <div class="feat-text"><strong>Secure Payments</strong><span>Safe & encrypted checkout</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📱</div>
+      <div class="feat-text"><strong>Mobile Friendly</strong><span>Book on the go</span></div>
     </div>
   </div>
-</section>
 
-<!-- FEATURES BAR -->
-<div class="features-bar">
-  <div class="feat"><div class="feat-icon">⚡</div><div class="feat-text"><strong>Instant Confirmation</strong><span>Real-time slot availability</span></div></div>
-  <div class="feat"><div class="feat-icon">📍</div><div class="feat-text"><strong>Multiple Locations</strong><span>Turfs across Kerala</span></div></div>
-  <div class="feat"><div class="feat-icon">🔒</div><div class="feat-text"><strong>Secure Payments</strong><span>Safe & encrypted checkout</span></div></div>
-  <div class="feat"><div class="feat-icon">📱</div><div class="feat-text"><strong>Mobile Friendly</strong><span>Book on the go</span></div></div>
-</div>
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="section-label">The Process</div>
+    <div class="section-title">HOW IT <span>WORKS</span></div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h4>Pick a Sport</h4>
+        <p>Choose from Football, Basketball, or Cricket and browse available turfs near you.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h4>Choose a Slot</h4>
+        <p>Select your preferred date and a half or full-hour time slot that fits your schedule.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h4>Pay Securely</h4>
+        <p>Review your booking summary and confirm with a safe, encrypted payment.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h4>Play!</h4>
+        <p>Show up, check in with your booking ID, and take the field. It's that simple.</p>
+      </div>
+    </div>
+  </section>
 
-<!-- HOW IT WORKS -->
-<section class="how" id="how">
-  <div class="section-label">The Process</div>
-  <div class="section-title">HOW IT <span>WORKS</span></div>
-  <div class="steps">
-    <div class="step"><div class="step-num">01</div><h4>Pick a Sport</h4><p>Choose from Football, Basketball, or Cricket and browse available turfs near you.</p></div>
-    <div class="step"><div class="step-num">02</div><h4>Choose a Slot</h4><p>Select your preferred date and a half or full-hour time slot that fits your schedule.</p></div>
-    <div class="step"><div class="step-num">03</div><h4>Pay Securely</h4><p>Review your booking summary and confirm with a safe, encrypted payment.</p></div>
-    <div class="step"><div class="step-num">04</div><h4>Play!</h4><p>Show up, check in with your booking ID, and take the field. It's that simple.</p></div>
-  </div>
-</section>
+  <!-- TURFS -->
+  <section class="turfs" id="turfs">
+    <div class="section-label">Featured Venues</div>
+    <div class="section-title">POPULAR <span>TURFS</span></div>
+    <div class="turf-grid" id="indexTurfGrid">
+      <div
+        style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;">
+        <p>Loading popular turfs...</p>
+      </div>
+    </div>
+  </section>
 
-<!-- TURFS -->
-<section class="turfs" id="turfs">
-  <div class="section-label">Featured Venues</div>
-  <div class="section-title">POPULAR <span>TURFS</span></div>
-  <div class="turf-grid" id="indexTurfGrid">
-    <div style="text-align: center; grid-column: 1 / -1; min-height: 200px; display: flex; align-items: center; justify-content: center;">
-      <p>Loading popular turfs...</p>
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <div>
+      <h3>READY TO<br><span>HIT THE FIELD?</span></h3>
+      <p>Join thousands of players booking their favourite turfs every week. No calls, no hassle.</p>
+    </div>
+    <div class="cta-btns">
+      <button class="btn-primary" onclick="window.location.href='login.html'">Create Free Account</button>
+      <button class="btn-outline" onclick="document.getElementById('turfs').scrollIntoView({behavior:'smooth'})">Browse
+        Turfs →</button>
     </div>
   </div>
-</section>
 
-<!-- CTA BANNER -->
-<div class="cta-banner">
-  <div>
-    <h3>READY TO<br><span>HIT THE FIELD?</span></h3>
-    <p>Join thousands of players booking their favourite turfs every week. No calls, no hassle.</p>
-  </div>
-  <div class="cta-btns">
-    <button class="btn-primary" onclick="window.location.href='login.html'">Create Free Account</button>
-    <button class="btn-outline" onclick="document.getElementById('turfs').scrollIntoView({behavior:'smooth'})">Browse Turfs →</button>
-  </div>
-</div>
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">play<span>Slot</span></div>
+    <div class="footer-links">
+      <a href="#">About</a>
+      <a href="#turfs">Turfs</a>
+      <a href="#">Contact</a>
+      <a href="admin.html">Admin</a>
+    </div>
+    <div class="footer-copy">© 2026 PlaySlot. All rights reserved.</div>
+  </footer>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">play<span>Slot</span></div>
-  <div class="footer-links">
-    <a href="#">About</a>
-    <a href="#turfs">Turfs</a>
-    <a href="#">Contact</a>
-    <a href="admin.html">Admin</a>
-  </div>
-  <div class="footer-copy">© 2026 PlaySlot. All rights reserved.</div>
-</footer>
-
-<script src="script.js"></script>
-<script src="auth-nav.js"></script>
+  <script src="script.js"></script>
+  <script src="auth-nav.js"></script>
 </body>
+
 </html>
