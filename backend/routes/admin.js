@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { adminAuth } = require('../middleware/authMiddleware');
 const Location = require('../models/Location');
 const Turf = require('../models/Turf');
 const Booking = require('../models/Booking');
+const Review = require('../models/Review');
+const { adminAuth } = require('../middleware/authMiddleware');
 
 // --- LOCATIONS ---
 router.post('/locations', adminAuth, async (req, res) => {
@@ -76,7 +77,12 @@ router.get('/bookings', adminAuth, async (req, res) => {
 // Admin can cancel booking
 router.delete('/bookings/:id', adminAuth, async (req, res) => {
   try {
-    await Booking.findByIdAndDelete(req.params.id);
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
+
+    booking.status = 'cancelled';
+    await booking.save();
+    
     res.json({ msg: 'Booking cancelled' });
   } catch (err) {
     res.status(500).send('Server error');
@@ -93,6 +99,49 @@ router.get('/stats', adminAuth, async (req, res) => {
     const revenue = bookings.reduce((sum, b) => sum + (b.totalPrice || 0), 0);
 
     res.json({ turfCount, locCount, bookingCount, revenue });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// --- REVIEWS MODERATION ---
+
+// Get all reviews (or with filters)
+router.get('/reviews', adminAuth, async (req, res) => {
+  try {
+    const { turfId } = req.query;
+    let query = {};
+    if (turfId) query.turf = turfId;
+
+    const reviews = await Review.find(query)
+      .populate('user', 'name email')
+      .populate('turf', 'name')
+      .sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// Delete review (Admin)
+router.delete('/reviews/:id', adminAuth, async (req, res) => {
+  try {
+    await Review.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Review deleted by admin' });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// Toggle Verification (Admin)
+router.patch('/reviews/:id/verify', adminAuth, async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).json({ msg: 'Review not found' });
+
+    review.isVerified = !review.isVerified;
+    await review.save();
+    res.json(review);
   } catch (err) {
     res.status(500).send('Server error');
   }

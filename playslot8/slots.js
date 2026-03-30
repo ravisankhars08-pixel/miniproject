@@ -53,8 +53,23 @@ const allSlots = [
   { start: 21, label: '9:00 PM',  period: 'night'     },
 ];
 
-// randomly pre-book some slots to simulate real availability
-const bookedSlots = [7, 12, 15, 19];
+// ── FETCH BOOKED SLOTS ──
+let bookedSlots = [];
+const turfId = localStorage.getItem('selectedTurfId');
+
+async function fetchAvailability() {
+  if (!turfId) return;
+  try {
+    const res = await fetch(`http://localhost:5000/api/bookings/check-availability?turfId=${turfId}&date=${encodeURIComponent(savedDate)}`);
+    if (res.ok) {
+      bookedSlots = await res.json();
+    }
+    buildSlots();
+  } catch (err) {
+    console.warn('Could not fetch availability:', err);
+    buildSlots();
+  }
+}
 
 // ── BUILD SLOTS ──
 function buildSlots() {
@@ -80,7 +95,8 @@ function buildSlots() {
       : endHour === 24 ? '12:00 AM'
       : `${endHour - 12}:00 PM`;
 
-    const isBooked = bookedSlots.includes(slot.start);
+    const slotString = `${slot.label} — ${endLabel}`;
+    const isBooked = bookedSlots.includes(slotString);
     const price    = basePrice * selectedDuration;
 
     const btn = document.createElement('div');
@@ -153,4 +169,4 @@ function toggleMenu() {
 }
 
 // ── INIT ──
-buildSlots();
+fetchAvailability();

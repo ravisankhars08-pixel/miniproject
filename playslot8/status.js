@@ -101,7 +101,7 @@ function renderBookings() {
 
         <div class="ticket-right">
           <div class="ticket-status-badge ${isCancelled ? 'cancelled' : 'confirmed'}">
-            ${isCancelled ? 'Cancelled' : 'Confirmed'}
+            ${isCancelled ? 'UNSUCCESSFUL' : 'Confirmed'}
           </div>
           <div class="ticket-price">
             ₹${booking.totalPrice}
@@ -130,8 +130,13 @@ function renderBookings() {
         <div style="display:flex; align-items:center; gap:16px;">
           <div class="ticket-barcode">${bars}</div>
           ${isCancelled
-            ? `<div class="cancelled-stamp">Booking Cancelled</div>`
-            : `<button class="cancel-ticket-btn" onclick="openCancelModal('${booking._id}')">Cancel Booking</button>`
+            ? `<div class="cancelled-stamp">Booking Unsuccessful</div>`
+            : `
+              <div style="display:flex; gap:12px;">
+                <button class="review-btn" onclick="window.location.href='reviews.html?turfId=${booking.turf._id}&bookingId=${booking._id}'">Review Turf</button>
+                <button class="cancel-ticket-btn" onclick="openCancelModal('${booking._id}')">Cancel Booking</button>
+              </div>
+            `
           }
         </div>
       </div>

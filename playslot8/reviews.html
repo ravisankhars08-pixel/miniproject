@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlaySlot — Turf Reviews</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Barlow:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .reviews-page {
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            padding: 0 2rem;
+            color: var(--white);
+        }
+
+        .rev-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .rev-header h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .rev-header h1 span {
+            color: var(--acid);
+        }
+
+        .rev-summary {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .avg-box {
+            text-align: center;
+        }
+
+        .avg-num {
+            font-size: 5rem;
+            font-weight: 900;
+            font-family: 'Barlow Condensed', sans-serif;
+            color: var(--acid);
+            line-height: 1;
+        }
+
+        .stars-wrap {
+            color: var(--acid);
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .rev-count {
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        .rating-bars {
+            flex: 1;
+        }
+
+        .r-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .r-bar-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .r-bar-fill {
+            height: 100%;
+            background: var(--acid);
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Review Submission */
+        .submit-rev-sec {
+            background: rgba(156, 255, 0, 0.03);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 4rem;
+        }
+
+        .submit-rev-sec h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .star-input span {
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.1);
+            transition: color 0.2s;
+        }
+
+        .star-input span.active {
+            color: var(--acid);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            color: var(--white);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Barlow', sans-serif;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .anon-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Feed */
+        .rev-feed-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+        }
+
+        .rev-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .rev-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .rev-user {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .rev-stars {
+            color: var(--acid);
+        }
+
+        .rev-comment {
+            color: var(--white);
+            line-height: 1.6;
+            opacity: 0.85;
+        }
+
+        .btn-delete {
+            background: transparent;
+            border: 1.5px solid rgba(255, 68, 68, 0.35);
+            color: #ff6666;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 9px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background: rgba(255, 68, 68, 0.15);
+            border-color: 1px solid rgba(255, 68, 68, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .rev-summary {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">play<span>Slot</span></div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="status.html">My Bookings</a>
+        </div>
+    </nav>
+
+    <div class="reviews-page">
+        <div class="rev-header">
+            <h1 id="turfNameDisplay">Turf <span>Reviews</span></h1>
+            <p>Your feedback helps the community choose the best venues.</p>
+        </div>
+
+        <!-- Summary -->
+        <div class="rev-summary">
+            <div class="avg-box">
+                <div class="avg-num" id="avgRating">0</div>
+                <div class="stars-wrap" id="avgStars">★★★★★</div>
+                <div class="rev-count" id="totalReviewsCount">0 Reviews</div>
+            </div>
+            <div class="rating-bars" id="ratingBars">
+                <!-- bars for 5,4,3,2,1 star counts -->
+            </div>
+        </div>
+
+        <!-- Submission Section (Visible only if booking exists) -->
+        <div class="submit-rev-sec" id="submissionSec" style="display:none">
+            <h3>Write a Review</h3>
+            <div class="star-input" id="starInput">
+                <span data-val="1">★</span>
+                <span data-val="2">★</span>
+                <span data-val="3">★</span>
+                <span data-val="4">★</span>
+                <span data-val="5">★</span>
+            </div>
+            <div class="form-group">
+                <label>Comment (max 1000 characters)</label>
+                <textarea id="revComment"
+                    placeholder="Share your experience... how was the pitch? the lighting? the staff?"></textarea>
+            </div>
+            <label class="anon-check">
+                <input type="checkbox" id="revAnon">
+                <span>Post anonymously</span>
+            </label>
+            <button class="btn-primary" id="btnSubmitRev">Submit Review</button>
+            <p id="revStatusMsg" style="margin-top: 1rem; font-size: 0.9rem;"></p>
+        </div>
+
+        <!-- Feed -->
+        <h3 class="rev-feed-title">Recent Feedback</h3>
+        <div id="reviewsFeed">
+            <!-- Filled via JS -->
+        </div>
+    </div>
+
+    <script src="reviews.js"></script>
+</body>
+
+</html>

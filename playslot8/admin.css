@@ -60,12 +60,12 @@ nav .admin-badge {
 }
 
 .admin-sidebar li:hover {
-  background: rgba(156,255,0,0.04);
+  background: rgba(156, 255, 0, 0.04);
   color: var(--white);
 }
 
 .admin-sidebar li.active {
-  background: rgba(156,255,0,0.07);
+  background: rgba(156, 255, 0, 0.07);
   color: var(--acid);
   border-left: 4px solid var(--acid);
 }
@@ -73,7 +73,10 @@ nav .admin-badge {
 .admin-sidebar li.active::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; height: 100%; width: 4px;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 4px;
   background: var(--acid);
   box-shadow: 0 0 15px var(--acid);
 }
@@ -90,9 +93,11 @@ nav .admin-badge {
 .admin-main::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 400px;
-  background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(156,255,0,0.03), transparent);
+  background: radial-gradient(ellipse 60% 60% at 50% 0%, rgba(156, 255, 0, 0.03), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -158,7 +163,7 @@ nav .admin-badge {
 
 .admin-stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(156,255,0,0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(156, 255, 0, 0.1);
 }
 
 .admin-stat-card h3 {
@@ -205,13 +210,13 @@ nav .admin-badge {
 
 .filter-tab:hover {
   color: var(--white);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .filter-tab.active {
   background: var(--acid);
   color: var(--dark);
-  box-shadow: 0 0 15px rgba(156,255,0,0.2);
+  box-shadow: 0 0 15px rgba(156, 255, 0, 0.2);
 }
 
 /* ── TABLES ── */
@@ -220,7 +225,7 @@ nav .admin-badge {
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .admin-table {
@@ -228,7 +233,8 @@ nav .admin-badge {
   border-collapse: collapse;
 }
 
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
   padding: 1.2rem 1.8rem;
   text-align: left;
   border-bottom: 1px solid var(--border);
@@ -248,12 +254,13 @@ nav .admin-badge {
 }
 
 .admin-table tbody tr:hover {
-  background: rgba(156,255,0,0.03);
+  background: rgba(156, 255, 0, 0.03);
 }
 
 .admin-table td {
   font-size: 1rem;
 }
+
 .admin-table td strong {
   font-weight: 600;
   color: var(--white);
@@ -264,9 +271,9 @@ nav .admin-badge {
   padding: 3px 10px;
   border-radius: 4px;
   font-size: 0.75rem;
-  background: rgba(156,255,0,0.1);
+  background: rgba(156, 255, 0, 0.1);
   color: var(--acid);
-  border: 1px solid rgba(156,255,0,0.2);
+  border: 1px solid rgba(156, 255, 0, 0.2);
   margin-right: 4px;
   margin-bottom: 4px;
   font-weight: 600;
@@ -276,7 +283,7 @@ nav .admin-badge {
 
 .action-btn {
   background: none;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   padding: 6px 12px;
   border-radius: 6px;
@@ -290,9 +297,9 @@ nav .admin-badge {
 }
 
 .action-btn:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--white);
-  border-color: rgba(255,255,255,0.2);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .btn-delete:hover {
@@ -305,7 +312,7 @@ nav .admin-badge {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0, 0, 0, 0.85);
   backdrop-filter: blur(10px);
   display: none;
   justify-content: center;
@@ -329,7 +336,7 @@ nav .admin-badge {
   border: 1px solid var(--border);
   transform: translateY(30px);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 40px rgba(156,255,0,0.1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(156, 255, 0, 0.1);
 }
 
 .modal-overlay.show .modal-content {
@@ -359,9 +366,10 @@ nav .admin-badge {
   text-transform: uppercase;
 }
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
   width: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   border: 1px solid var(--border);
   color: var(--white);
   padding: 1rem 1.2rem;
@@ -371,10 +379,11 @@ nav .admin-badge {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
   border-color: var(--acid);
-  box-shadow: 0 0 10px rgba(156,255,0,0.2);
+  box-shadow: 0 0 10px rgba(156, 255, 0, 0.2);
 }
 
 .modal-actions {
@@ -389,6 +398,7 @@ nav .admin-badge {
   .admin-layout {
     flex-direction: column;
   }
+
   .admin-sidebar {
     width: 100%;
     flex-direction: row;
@@ -397,6 +407,7 @@ nav .admin-badge {
     border-right: none;
     border-bottom: 1px solid var(--border);
   }
+
   .admin-sidebar li {
     padding: 1.2rem;
     font-size: 1rem;
@@ -404,25 +415,35 @@ nav .admin-badge {
     border-left: none;
     border-bottom: 3px solid transparent;
   }
+
   .admin-sidebar li.active {
     border-left: none;
     border-bottom: 3px solid var(--acid);
   }
+
   .admin-sidebar li.active::after {
-    top: auto; bottom: 0; left: 0; right: 0;
-    height: 3px; width: 100%;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    width: 100%;
   }
+
   .admin-main {
     padding: 2rem 1.5rem;
   }
+
   .tab-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1.2rem;
   }
+
   .table-wrap {
     overflow-x: auto;
   }
+
   .stats-grid {
     grid-template-columns: 1fr;
   }

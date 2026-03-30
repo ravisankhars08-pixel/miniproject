@@ -3,7 +3,20 @@ const router = express.Router();
 const Location = require('../models/Location');
 const Turf = require('../models/Turf');
 const Booking = require('../models/Booking');
+const Review = require('../models/Review');
 const { auth } = require('../middleware/authMiddleware');
+
+// Get global stats (Public)
+router.get('/stats', async (req, res) => {
+  try {
+    const turfCount = await Turf.countDocuments();
+    const bookingCount = await Booking.countDocuments({ status: 'confirmed' });
+    const locationCount = await Location.countDocuments();
+    res.json({ turfCount, bookingCount, locationCount });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
 
 // Get all locations
 router.get('/locations', async (req, res) => {
@@ -20,6 +33,25 @@ router.get('/locations', async (req, res) => {
     });
 
     res.json(result);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// Check availability for a turf/date
+router.get('/bookings/check-availability', async (req, res) => {
+  try {
+    const { turfId, date } = req.query;
+    if (!turfId || !date) return res.status(400).json({ msg: 'turfId and date are required' });
+
+    const bookings = await Booking.find({ 
+      turf: turfId, 
+      date: date, 
+      status: 'confirmed' 
+    }, 'slot');
+
+    const takenSlots = bookings.map(b => b.slot);
+    res.json(takenSlots);
   } catch (err) {
     res.status(500).send('Server error');
   }
@@ -85,10 +117,72 @@ router.delete('/bookings/:id', auth, async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await Booking.findByIdAndDelete(req.params.id);
+    // Instead of deleting, we update status to cancelled
+    booking.status = 'cancelled';
+    await booking.save();
+    
     res.json({ msg: 'Booking cancelled' });
   } catch (err) {
     console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// --- REVIEWS ---
+
+// Get reviews for a turf
+router.get('/reviews/turf/:turfId', async (req, res) => {
+  try {
+    const reviews = await Review.find({ turf: req.params.turfId })
+      .populate('user', 'name')
+      .sort({ createdAt: -1 });
+    res.json(reviews);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// Post a review (Auth required)
+router.post('/reviews', auth, async (req, res) => {
+  try {
+    const { turfId, bookingId, rating, comment, isAnonymous } = req.body;
+
+    // 1. Verify booking ownership and status
+    const booking = await Booking.findById(bookingId);
+    if (!booking) return res.status(404).json({ msg: 'Booking not found' });
+    if (booking.user.toString() !== req.user.id) return res.status(401).json({ msg: 'Unauthorized' });
+
+    // 2. Check if a review already exists for this booking
+    const existing = await Review.findOne({ booking: bookingId });
+    if (existing) return res.status(400).json({ msg: 'Review already exists for this booking' });
+
+    const review = new Review({
+      user: req.user.id,
+      turf: turfId,
+      booking: bookingId,
+      rating,
+      comment,
+      isAnonymous
+    });
+
+    await review.save();
+    res.json(review);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+// Delete own review
+router.delete('/reviews/:id', auth, async (req, res) => {
+  try {
+    const review = await Review.findById(req.params.id);
+    if (!review) return res.status(404).json({ msg: 'Review not found' });
+    if (review.user.toString() !== req.user.id) return res.status(401).json({ msg: 'Unauthorized' });
+
+    await Review.findByIdAndDelete(req.params.id);
+    res.json({ msg: 'Review deleted' });
+  } catch (err) {
     res.status(500).send('Server error');
   }
 });

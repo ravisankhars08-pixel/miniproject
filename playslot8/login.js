@@ -62,7 +62,12 @@ function clearMessage(id) {
 const API_URL = 'http://localhost:5000/api';
 
 function saveSession(user, token) {
-  const session = { name: user.name, role: user.role, token: token };
+  const session = { 
+    userId: user.id || user._id, 
+    name: user.name, 
+    role: user.role, 
+    token: token 
+  };
   localStorage.setItem('ps_session', JSON.stringify(session));
 }
 
@@ -207,8 +212,38 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+// ── FETCH HERO STATS ──
+async function fetchHeroStats() {
+  try {
+    const res = await fetch(`${API_URL}/stats`);
+    if (!res.ok) return;
+    const stats = await res.json();
+    
+    // Update total turfs (48+)
+    const turfStat = document.querySelector('.lv-stat strong'); // First stat on login.html
+    if (turfStat) {
+      turfStat.innerHTML = `${stats.turfCount}<span>+</span>`;
+    }
+    
+    // Update total bookings (12k)
+    const bookingStat = document.querySelectorAll('.lv-stat strong')[1]; // Second stat
+    if (bookingStat) {
+      let count = stats.bookingCount;
+      let label = '';
+      if (count >= 1000) {
+        count = (count / 1000).toFixed(1);
+        label = 'K';
+      }
+      bookingStat.innerHTML = `${count}<span>${label}</span>`;
+    }
+  } catch (err) {
+    console.warn('Could not fetch hero stats:', err);
+  }
+}
+
 // ── RESTORE REMEMBERED EMAIL ──
 window.addEventListener('DOMContentLoaded', async function () {
+  fetchHeroStats();
   const remembered = localStorage.getItem('ps_remember');
   if (remembered) {
     const emailInput = document.getElementById('loginEmail');

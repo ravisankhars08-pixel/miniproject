@@ -259,7 +259,37 @@ async function fetchPopularTurfs() {
   }
 }
 
+// ── FETCH HERO STATS ──
+async function fetchHeroStats() {
+  try {
+    const res = await fetch('http://localhost:5000/api/stats');
+    if (!res.ok) return;
+    const stats = await res.json();
+    
+    // Update total turfs (48+)
+    const turfStat = document.querySelector('.stat strong'); // First stat
+    if (turfStat) {
+      turfStat.innerHTML = `${stats.turfCount}<span>+</span>`;
+    }
+    
+    // Update total bookings (12k)
+    const bookingStat = document.querySelectorAll('.stat strong')[1]; // Second stat
+    if (bookingStat) {
+      let count = stats.bookingCount;
+      let label = '';
+      if (count >= 1000) {
+        count = (count / 1000).toFixed(1);
+        label = 'k';
+      }
+      bookingStat.innerHTML = `${count}<span>${label}</span>`;
+    }
+  } catch (err) {
+    console.warn('Could not fetch hero stats:', err);
+  }
+}
+
 // Call on load
 document.addEventListener('DOMContentLoaded', () => {
   fetchPopularTurfs();
+  fetchHeroStats();
 });

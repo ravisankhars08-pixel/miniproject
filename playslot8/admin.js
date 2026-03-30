@@ -90,6 +90,7 @@ function switchTab(tabId, el) {
   if (tabId === 'locationsTab') renderLocations();
   if (tabId === 'turfsTab')     renderTurfs();
   if (tabId === 'bookingsTab')  renderBookings();
+  if (tabId === 'reviewsTab')   fetchReviews();
   if (tabId === 'dashboardTab') fetchData(); // Refresh stats
 }
 
@@ -122,13 +123,14 @@ function renderTurfs() {
   
   if (!Array.isArray(adminTurfs)) return;
   adminTurfs.forEach(turf => {
-    const tags = turf.sports.split(',').map(s => `<span class="turf-badge">${s.trim()}</span>`).join('');
+    // Ensure sports is a string before splitting
+    const sportsStr = typeof turf.sports === 'string' ? turf.sports : (Array.isArray(turf.sports) ? turf.sports.join(', ') : 'Football');
     const locName = turf.location ? turf.location.name : 'Unknown';
     tbody.innerHTML += `
       <tr>
         <td><strong>${turf.name}</strong></td>
         <td>📍 ${locName}</td>
-        <td>${tags}</td>
+        <td>${sportsStr}</td>
         <td>₹${turf.pricePerHour}/hr</td>
         <td>
           <button class="action-btn btn-delete" onclick="deleteTurf('${turf._id}')">🗑️ Delete</button>
@@ -167,10 +169,10 @@ function renderBookings() {
         <td><strong><small>${b._id}</small></strong></td>
         <td><small>${b.date}</small><br/>${b.slot}</td>
         <td>${turfName}</td>
-        <td><strong>${userName}</strong><br/><span class="turf-badge">${b.status}</span></td>
+        <td><strong>${userName}</strong><br/><small style="color:var(--acid); text-transform:uppercase;">${b.status}</small></td>
         <td><strong>₹${b.totalPrice}</strong></td>
         <td>
-          <button class="action-btn btn-delete" onclick="deleteBooking('${b._id}')">🗑️ Cancel</button>
+          <button class="action-btn btn-delete" onclick="deleteBooking('${b._id}')">🚫 Cancel</button>
         </td>
       </tr>
     `;
@@ -183,6 +185,89 @@ function filterBookings(status) {
   const activeTab = document.querySelector(`.filter-tab[data-filter="${status}"]`);
   if (activeTab) activeTab.classList.add('active');
   renderBookings();
+}
+
+// REVIEWS
+async function fetchReviews() {
+  const turfId = document.getElementById('reviewTurfFilter').value;
+  const token = getToken();
+  try {
+    const res = await fetch(`${API_URL}/admin/reviews?turfId=${turfId}`, {
+      headers: { 'x-auth-token': token }
+    });
+    const reviews = await res.json();
+    renderReviews(reviews);
+    
+    // Fill the turf filter dropdown if it's currently showing "All"
+    const filter = document.getElementById('reviewTurfFilter');
+    if (filter.options.length <= 1) {
+      adminTurfs.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t._id;
+        opt.textContent = t.name;
+        filter.appendChild(opt);
+      });
+    }
+  } catch (err) {
+    console.error('Error fetching reviews:', err);
+  }
+}
+
+function renderReviews(reviews) {
+  const tbody = document.getElementById('reviewsTableBody');
+  tbody.innerHTML = '';
+  
+  if (reviews.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No reviews found.</td></tr>';
+    return;
+  }
+
+  reviews.forEach(r => {
+    const userDisplay = r.user ? `${r.user.name}<br/><small>${r.user.email}</small>` : 'Unknown';
+    const turfName = r.turf ? r.turf.name : 'Unknown';
+    const stars = '★'.repeat(r.rating);
+    const verifyIcon = r.isVerified ? '✅ VERIFIED' : '❓ UNVERIFIED';
+
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>${userDisplay}</strong></td>
+        <td>${turfName}</td>
+        <td><span style="color:var(--acid);">${stars}</span></td>
+        <td style="max-width:300px; font-size:0.9rem;">${r.comment}</td>
+        <td>
+           <div style="display:flex; flex-direction:column; gap:5px;">
+             <button class="action-btn" onclick="verifyReview('${r._id}')">${verifyIcon}</button>
+             <button class="action-btn btn-delete" onclick="deleteReview('${r._id}')">🗑️ Delete</button>
+           </div>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+async function verifyReview(id) {
+  try {
+    const res = await fetch(`${API_URL}/admin/reviews/${id}/verify`, {
+      method: 'PATCH',
+      headers: { 'x-auth-token': getToken() }
+    });
+    if (res.ok) fetchReviews();
+  } catch (err) {
+    console.error('Error verifying review:', err);
+  }
+}
+
+async function deleteReview(id) {
+  if (!confirm('Permanently delete this review?')) return;
+  try {
+    const res = await fetch(`${API_URL}/admin/reviews/${id}`, {
+      method: 'DELETE',
+      headers: { 'x-auth-token': getToken() }
+    });
+    if (res.ok) fetchReviews();
+  } catch (err) {
+    console.error('Error deleting review:', err);
+  }
 }
 
 // ── ACTIONS ──

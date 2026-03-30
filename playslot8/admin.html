@@ -33,6 +33,7 @@
         <li onclick="switchTab('locationsTab', this)">📍 Locations</li>
         <li onclick="switchTab('turfsTab', this)">🏟️ Turfs</li>
         <li onclick="switchTab('bookingsTab', this)">📅 Bookings</li>
+        <li onclick="switchTab('reviewsTab', this)">★ Reviews</li>
       </ul>
     </aside>
 
@@ -132,6 +133,34 @@
               </tr>
             </thead>
             <tbody id="bookingsTableBody">
+              <!-- Populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REVIEWS TAB -->
+      <section id="reviewsTab" class="admin-tab">
+        <div class="tab-header">
+          <h2>Manage <span>Reviews</span></h2>
+          <div class="filter-tabs">
+            <select id="reviewTurfFilter" onchange="fetchReviews()" style="background:var(--card-bg); color:var(--white); border:1px solid var(--border); padding:8px; border-radius:8px;">
+              <option value="">All Turfs</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Turf</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="reviewsTableBody">
               <!-- Populated via JS -->
             </tbody>
           </table>
